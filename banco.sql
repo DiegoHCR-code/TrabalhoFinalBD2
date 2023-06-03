@@ -1,7 +1,4 @@
-drop table if exists funcionario cascade;
-
 CREATE TABLE Funcionario (
-    id uuid,
     NumCarteiraT NUMERIC PRIMARY KEY,
     Telefone NUMERIC,
     datanasc DATE,
@@ -13,6 +10,7 @@ CREATE TABLE Funcionario (
     Aumento INT,
     Faltas_mes INT,
     ValeTransporte NUMERIC,
+    id uuid,
     Foto VARCHAR,
     NumDependente INT,
     eGerente BOOLEAN DEFAULT false
@@ -185,9 +183,6 @@ ADD CONSTRAINT FK_forma_pagamento_2 FOREIGN KEY (codtipo) REFERENCES Tipo_pagame
 alter table funcionario
 add constraint conecta_usuario FOREIGN KEY (id) references auth.users ON DELETE CASCADE;
 
-create table gerente (
-    id_gerente uuid unique not null references auth.users
-);
 
 INSERT INTO Funcionario (
         Telefone,
@@ -528,6 +523,7 @@ VALUES (
         '2023-05-02',
         'Cheque'
     );
+
 /*Quando a função "calculofolhapagamento" é executada, ela calcula o valor
  total dos salários dos funcionários e o valor total dos pagamentos a
  fornecedores no mês anterior, e insere um novo registro na tabela
@@ -567,6 +563,7 @@ SELECT *
 FROM calculofolhapagamento();
 SELECT *
 FROM folhapagamento;
+
 /* A função verifica o tipo de operação e obtém o número da carteira de
  trabalho do funcionário afetado pela operação. Em seguida, conta o número
  total de dependentes desse funcionário e atualiza o campo
@@ -575,21 +572,30 @@ FROM folhapagamento;
  automaticamente após uma operação de atualização, inserção ou exclusão
  na tabela. Ele chama a função "calculodep()" para realizar o cálculo e a
  atualização do número de dependentes do funcionário afetado. */
-CREATE OR REPLACE FUNCTION calculodep() RETURNS TRIGGER AS $$
-DECLARE numF numeric;
-total int;
-BEGIN IF (TG_OP = 'DELETE') THEN numF = OLD.fk_Funcionario_NumCarteiraT;
-ELSE numF = NEW.fk_Funcionario_NumCarteiraT;
-END IF;
-SELECT INTO total count(*)
-FROM Dependente
-WHERE fk_Funcionario_NumCarteiraT = numF;
-UPDATE Funcionario
-SET numdependente = total
-WHERE numcarteirat = numF;
-return null;
+CREATE OR REPLACE FUNCTION calculodep() RETURNS TRIGGER 
+AS $$
+DECLARE
+     numF numeric;
+    total int;
+BEGIN 
+    IF (TG_OP = 'DELETE') THEN 
+        numF = OLD.fk_Funcionario_NumCarteiraT;
+    ELSE 
+        numF = NEW.fk_Funcionario_NumCarteiraT;
+    END IF;
+
+    SELECT INTO total count(*)
+        FROM Dependente
+        WHERE fk_Funcionario_NumCarteiraT = numF;
+        UPDATE Funcionario
+        SET numdependente = total
+        WHERE numcarteirat = numF;
+
+    return null;
 END;
 $$language plpgsql;
+
+
 CREATE OR REPLACE TRIGGER calculodep
 AFTER
 UPDATE
@@ -728,3 +734,6 @@ CREATE OR REPLACE TRIGGER trigger_calcular_idade_dependente BEFORE
 INSERT ON Dependente FOR EACH ROW EXECUTE FUNCTION calcularIdadeDependente();
 INSERT INTO Dependente (nome, telefone, parentesco, DtNascimento)
 VALUES ('João', '123456789', 'Filho', '2005-06-10');
+
+CREATE VIEW funcionario_completo AS 
+select f.*, c.nome, co.datacontratamento from funcionario as f join curriculo as c on f.rg = c.rg join contrata as co on c.RG = co.rgpessoa;
