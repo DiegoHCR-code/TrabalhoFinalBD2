@@ -17,7 +17,6 @@ function EditarConta() {
 
     async function PopularFormulario() {
         const { data, status, error } = await controleBD.from("funcionario_completo").select("*").eq("id", state.user.id);
-        console.log(data);
         if (!error) {
             let info = infoUsuario;
             let extra = {};
@@ -131,7 +130,7 @@ function EditarConta() {
                 </div>
 
                 <p>data contrata, faltas mes, turno, horaextra, dependentes, salario, vale transp</p>
-                <button type='submit'>Criar</button>
+                <button className="btn btn-primary" type='submit'>Criar</button>
             </form>
         </div>
     );

@@ -21,12 +21,12 @@ function CriarConta() {
     }
 
     async function ExecutarCadastro() {
-        // const { data, error } = await controleBD.auth.signUp({
-        //     email: infoUsuario.email,
-        //     password: infoUsuario.senha,
-        // });
-        const userID = "9b93badb-5b19-4c4a-87c3-20afc0a0c3b4";
-        if (1 == 1) {
+        const { data, error } = await controleBD.auth.signUp({
+            email: infoUsuario.email,
+            password: infoUsuario.senha,
+        });
+        const userID = data.user.id;
+        if (data) {
             const { error } = await controleBD
                 .from('curriculo')
                 .insert([
