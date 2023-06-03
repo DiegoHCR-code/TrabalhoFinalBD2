@@ -9,6 +9,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import Home from './componentes/Home';
 import CriarConta from './componentes/CriarConta';
 import CriarProduto from './componentes/CriarProduto';
+import EditarConta from './componentes/EditarConta';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -22,9 +23,14 @@ const router = createBrowserRouter([
     element: <CriarConta />
   },
   {
+    path: "/editarconta",
+    element: <EditarConta />
+  },
+  {
     path: "/criarproduto",
     element: <CriarProduto />
   },
+   
 ]);
 
 root.render(

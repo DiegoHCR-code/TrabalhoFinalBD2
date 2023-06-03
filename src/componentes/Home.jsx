@@ -3,9 +3,12 @@ import './Home.css';
 import { useEffect, useState } from "react";
 import { controleBD } from '../controleSupabase';
 import Auth from './Auth';
+import PainelGerente from './PainelGerente';
+import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 function App() {
-
+  let navigate = useNavigate();
   const [session, setSession] = useState(null);
   const [user, setUser] = useState(null);
 
@@ -23,20 +26,25 @@ function App() {
     (async () => {
       if (session) {
         const { data: usuario, error } = await controleBD.auth.getUser();
-        const { data: resultado, status } = await controleBD.from("funcionario").select("*").eq("id", usuario.user.id);
-        setUser({ info: user, gerente: (status === 200 && resultado[0].eGerente) });
+        if (!error)
+        {
+          const { data: resultado, status } = await controleBD.from("funcionario").select("eGerente").eq("id", usuario.user.id);
+          setUser(u => { return { ...usuario.user, gerente: (status === 200 && resultado[0].eGerente) }});
+        } else console.log(error);        
       }
     })();
   }, [session]);
 
   return (
     <>
+      <header>
+        <button onClick={() => navigate('/editarconta', {state: { user: {...user, propria: true } }})}>minha conta</button>
+        <button onClick={async () => await controleBD.auth.signOut()}>Sair</button>
+      </header>
       <h1>Restaurante</h1>
-
       {(session && user) ?
-        <div>
-          <p>{user.gerente ? "mostrar controle do gerente" : "mostrar controle do funcionario"}</p>
-          <button onClick={async () => await controleBD.auth.signOut()}>Sair</button>
+        <div className='m-4 p-4 bg-light'>
+          {user.gerente ? <PainelGerente /> : "mostrar controle do funcionario"}
         </div>
         :
         <Auth />

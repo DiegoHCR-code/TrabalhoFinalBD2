@@ -1,40 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { controleBD } from '../controleSupabase';
 import { useNavigate } from "react-router-dom";
-
-// CREATE TABLE Funcionario (
-//     NumCarteiraT NUMERIC PRIMARY KEY,
-//     id uuid,
-//     Telefone NUMERIC,
-//     datanasc DATE,
-//     fk_Turno_s__Turno_s__PK INT,
-//     Salario NUMERIC,
-//     Endereco VARCHAR,
-//     RG NUMERIC,
-//     HorasExtras INT,
-//     Aumento INT,
-//     Faltas_mes INT,
-//     ValeTransporte NUMERIC,
-//     Foto VARCHAR,
-//     NumDependente INT
-// );
-
-const templateUsuario = {
-    id: "",
-    nome: "",
-    carteira: "",
-    tel: "",
-    nasc: undefined,
-    endereco: "",
-    rg: "",
-    foto: null,
-    email: "",
-    senha: ""
-};
+import { templateFuncionario } from "./templates";
+import moment from 'moment';
 
 function CriarConta() {
+
     let navigate = useNavigate();
-    const [infoUsuario, setInfoUsuario] = useState(templateUsuario);
+    const [infoUsuario, setInfoUsuario] = useState(templateFuncionario);
 
     function ProcessarInfo(form) {
         const dados = new FormData(form);
@@ -48,12 +21,12 @@ function CriarConta() {
     }
 
     async function ExecutarCadastro() {
-        const { data, error } = await controleBD.auth.signUp({
-            email: infoUsuario.email,
-            password: infoUsuario.senha,
-        });
-        const userID = data.user.id;
-        if (data) {
+        // const { data, error } = await controleBD.auth.signUp({
+        //     email: infoUsuario.email,
+        //     password: infoUsuario.senha,
+        // });
+        const userID = "9b93badb-5b19-4c4a-87c3-20afc0a0c3b4";
+        if (1 == 1) {
             const { error } = await controleBD
                 .from('curriculo')
                 .insert([
@@ -72,11 +45,21 @@ function CriarConta() {
                             numcarteirat: infoUsuario.carteira.replace(/\D/g, ''),
                             telefone: infoUsuario.tel.replace(/\D/g, ''),
                             endereco: infoUsuario.end,
-                            datanasc: infoUsuario.datanasc,
+                            datanasc: moment(infoUsuario.datanasc).format("YYYY-MM-DD"),
                             rg: infoUsuario.rg.replace(/\D/g, '')
                         }]);
-                if (!error)
-                    navigate("/");
+                if (!error) {
+                    const { error } = await controleBD
+                        .from('contrata')
+                        .insert([
+                            {
+                                datacontratamento: moment().format("YYYY-MM-DD"),
+                                rgpessoa: infoUsuario.rg.replace(/\D/g, ''),
+                                numcarteira: infoUsuario.carteira.replace(/\D/g, '')
+                            }]);
+                    if (!error)
+                        navigate("/");
+                }
                 else console.log(error);
             }
             else console.log(error);
@@ -85,6 +68,7 @@ function CriarConta() {
 
     return (
         <div>
+
             <p>Preencha o formulario com suas informações: </p>
             <form onSubmit={(e) => { e.preventDefault(); ProcessarInfo(e.target); }}>
                 <fieldset>
@@ -93,8 +77,8 @@ function CriarConta() {
                     <label htmlFor="inscr-nome">Nome</label>
                     <input required type="text" name="inscr-nome" id="inscr-nome" />
 
-                    <label htmlFor="inscr-nasc">Data de nascimento</label>
-                    <input required type="date" name="inscr-nasc" id="inscr-nasc" />
+                    <label htmlFor="inscr-datanasc">Data de nascimento</label>
+                    <input required type="date" name="inscr-datanasc" id="inscr-datanasc" />
 
                     <label htmlFor="inscr-rg">RG</label>
                     <input required type="text" name="inscr-rg" id="inscr-rg" />
