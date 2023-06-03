@@ -1,40 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { controleBD } from '../controleSupabase';
 import { useNavigate } from "react-router-dom";
-
-// CREATE TABLE Funcionario (
-//     NumCarteiraT NUMERIC PRIMARY KEY,
-//     id uuid,
-//     Telefone NUMERIC,
-//     datanasc DATE,
-//     fk_Turno_s__Turno_s__PK INT,
-//     Salario NUMERIC,
-//     Endereco VARCHAR,
-//     RG NUMERIC,
-//     HorasExtras INT,
-//     Aumento INT,
-//     Faltas_mes INT,
-//     ValeTransporte NUMERIC,
-//     Foto VARCHAR,
-//     NumDependente INT
-// );
-
-const templateUsuario = {
-    id: "",
-    nome: "",
-    carteira: "",
-    tel: "",
-    nasc: undefined,
-    endereco: "",
-    rg: "",
-    foto: null,
-    email: "",
-    senha: ""
-};
+import { templateFuncionario } from "./templates";
+import moment from 'moment';
 
 function CriarConta() {
+
     let navigate = useNavigate();
-    const [infoUsuario, setInfoUsuario] = useState(templateUsuario);
+    const [infoUsuario, setInfoUsuario] = useState(templateFuncionario);
 
     function ProcessarInfo(form) {
         const dados = new FormData(form);
@@ -72,11 +45,21 @@ function CriarConta() {
                             numcarteirat: infoUsuario.carteira.replace(/\D/g, ''),
                             telefone: infoUsuario.tel.replace(/\D/g, ''),
                             endereco: infoUsuario.end,
-                            datanasc: infoUsuario.datanasc,
+                            datanasc: moment(infoUsuario.datanasc).format("YYYY-MM-DD"),
                             rg: infoUsuario.rg.replace(/\D/g, '')
                         }]);
-                if (!error)
-                    navigate("/");
+                if (!error) {
+                    const { error } = await controleBD
+                        .from('contrata')
+                        .insert([
+                            {
+                                DataContratamento: moment().format("YYYY-MM-DD"),
+                                RGpessoa: infoUsuario.rg.replace(/\D/g, ''),
+                                NumCarteira: infoUsuario.carteira.replace(/\D/g, '')
+                            }]);
+                    if (!error)
+                        navigate("/");
+                }
                 else console.log(error);
             }
             else console.log(error);
