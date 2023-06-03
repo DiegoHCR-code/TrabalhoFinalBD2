@@ -1,6 +1,8 @@
+drop table if exists funcionario cascade;
+
 CREATE TABLE Funcionario (
-    NumCarteiraT NUMERIC PRIMARY KEY,
     id uuid,
+    NumCarteiraT NUMERIC PRIMARY KEY,
     Telefone NUMERIC,
     datanasc DATE,
     fk_Turno_s__Turno_s__PK INT,
@@ -12,7 +14,8 @@ CREATE TABLE Funcionario (
     Faltas_mes INT,
     ValeTransporte NUMERIC,
     Foto VARCHAR,
-    NumDependente INT
+    NumDependente INT,
+    eGerente BOOLEAN DEFAULT false
 );
 
 CREATE TABLE Curriculo (
@@ -21,6 +24,7 @@ CREATE TABLE Curriculo (
     Telefone NUMERIC,
     NumCarteira NUMERIC
 );
+
 CREATE TABLE Contrata (
     DataContratamento DATE,
     RGpessoa NUMERIC,
@@ -43,7 +47,9 @@ CREATE TABLE Prato (
     preco NUMERIC,
     numero INT PRIMARY KEY
 );
+
 CREATE TABLE CriarPrato (fk_Produto_codigo INT, fk_Prato_numero INT);
+
 CREATE TABLE CLTBeneficios (
     Vale_refeicao NUMERIC,
     PisoSalarial NUMERIC,
