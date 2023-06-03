@@ -3,7 +3,7 @@ const templateFuncionario = {
     nome: "",
     carteira: "",
     tel: "",
-    nasc: undefined,
+    datanasc: undefined,
     endereco: "",
     rg: "",
     foto: null,

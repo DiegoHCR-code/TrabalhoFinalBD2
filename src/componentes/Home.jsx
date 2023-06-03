@@ -5,6 +5,7 @@ import { controleBD } from '../controleSupabase';
 import Auth from './Auth';
 import PainelGerente from './PainelGerente';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 function App() {
   let navigate = useNavigate();
@@ -37,7 +38,7 @@ function App() {
   return (
     <>
       <header>
-        <button onClick={() => navigate('/editarconta', {state: {user}})}>minha conta</button>
+        <button onClick={() => navigate('/editarconta', {state: { user: {...user, propria: true } }})}>minha conta</button>
         <button onClick={async () => await controleBD.auth.signOut()}>Sair</button>
       </header>
       <h1>Restaurante</h1>
