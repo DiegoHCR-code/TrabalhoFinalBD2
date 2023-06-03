@@ -11,4 +11,12 @@ const templateFuncionario = {
     senha: ""
 };
 
+const templateProduto = {
+    codigo: "",
+    nome: "",
+    precoproduto: "",
+  };
+
+
 export { templateFuncionario };
+export { templateProduto };

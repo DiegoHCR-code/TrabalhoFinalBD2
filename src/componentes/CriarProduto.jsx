@@ -1,17 +1,12 @@
 import { controleBD } from "../controleSupabase";
 import { useEffect, useState } from "react";
+import { templateProduto } from "./templates";
 
 //CREATE TABLE Produto (
 //    codigo INT PRIMARY KEY,
 //    nome VARCHAR,
 //    precoProduto NUMERIC
 //);
-
-const templateProduto = {
-  codigo: "",
-  nome: "",
-  precoproduto: "",
-};
 
 function CriarProduto() {
   const [infoProds, setInfoProds] = useState(templateProduto);
@@ -20,9 +15,9 @@ function CriarProduto() {
     const infor = new FormData(formProd);
 
     let infoLidaP = infoProds;
+    console.log(infoLidaP, "teste");
     for (const info of infor) {
-      infoLidaP[info[0].slice(6)] = info[1];
-      console.log("funfou2");
+      infoLidaP[info[0].slice()] = info[1];
     }
     setInfoProds(infoLidaP);
     ExecutarCadastroProd();
@@ -30,13 +25,12 @@ function CriarProduto() {
   }
 
   async function ExecutarCadastroProd() {
-        controleBD.from("produto").insert([
+        const { error} = await controleBD.from("produto").insert([
             {
                 nome: infoProds.nome,
-                codigo: infoProds.codigo,
-                precoproduto: infoProds.precoproduto,
-            },
-          ]);
+                codigo: infoProds.codigo.replace(/\D/g, ''),
+                precoproduto: infoProds.precoproduto.replace(/\D/g, ''),
+            }]);
       console.log("cadastrou");
   }
 
@@ -47,19 +41,14 @@ function CriarProduto() {
         <fieldset>
           <legend>Informações do Produto</legend>
 
-          <label htmlFor="inscr-nomeP">Nome:</label>
-          <input type="text" name="inscr-nomeP" id="inscr-nomeP" required />
+          <label htmlFor="nome">Nome:</label>
+          <input type="text" name="nome" id="nome" required />
 
-          <label htmlFor="inscr-precoP">Preço:</label>
-          <input type="number" name="inscr-precoP" id="inscr-precoP" required />
+          <label htmlFor="precoproduto">Preço:</label>
+          <input type="number" name="precoproduto" id="precoproduto" required />
 
-          <label htmlFor="inscr-codigoP">Código:</label>
-          <input
-            type="number"
-            name="inscr-codigoP"
-            id="inscr-codigoP"
-            required
-          />
+          <label htmlFor= "codigo">Código:</label>
+          <input type="number" name="codigo" id="codigo" required/>
         </fieldset>
         <button type="submit">Cadastrar</button>
         <button type="reset">Limpar Campos</button>
