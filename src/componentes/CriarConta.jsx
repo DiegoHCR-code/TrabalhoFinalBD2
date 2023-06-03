@@ -21,12 +21,12 @@ function CriarConta() {
     }
 
     async function ExecutarCadastro() {
-        const { data, error } = await controleBD.auth.signUp({
-            email: infoUsuario.email,
-            password: infoUsuario.senha,
-        });
-        const userID = data.user.id;
-        if (data) {
+        // const { data, error } = await controleBD.auth.signUp({
+        //     email: infoUsuario.email,
+        //     password: infoUsuario.senha,
+        // });
+        const userID = "9b93badb-5b19-4c4a-87c3-20afc0a0c3b4";
+        if (1 == 1) {
             const { error } = await controleBD
                 .from('curriculo')
                 .insert([
@@ -53,9 +53,9 @@ function CriarConta() {
                         .from('contrata')
                         .insert([
                             {
-                                DataContratamento: moment().format("YYYY-MM-DD"),
-                                RGpessoa: infoUsuario.rg.replace(/\D/g, ''),
-                                NumCarteira: infoUsuario.carteira.replace(/\D/g, '')
+                                datacontratamento: moment().format("YYYY-MM-DD"),
+                                rgpessoa: infoUsuario.rg.replace(/\D/g, ''),
+                                numcarteira: infoUsuario.carteira.replace(/\D/g, '')
                             }]);
                     if (!error)
                         navigate("/");
@@ -68,6 +68,7 @@ function CriarConta() {
 
     return (
         <div>
+
             <p>Preencha o formulario com suas informações: </p>
             <form onSubmit={(e) => { e.preventDefault(); ProcessarInfo(e.target); }}>
                 <fieldset>
@@ -76,8 +77,8 @@ function CriarConta() {
                     <label htmlFor="inscr-nome">Nome</label>
                     <input required type="text" name="inscr-nome" id="inscr-nome" />
 
-                    <label htmlFor="inscr-nasc">Data de nascimento</label>
-                    <input required type="date" name="inscr-nasc" id="inscr-nasc" />
+                    <label htmlFor="inscr-datanasc">Data de nascimento</label>
+                    <input required type="date" name="inscr-datanasc" id="inscr-datanasc" />
 
                     <label htmlFor="inscr-rg">RG</label>
                     <input required type="text" name="inscr-rg" id="inscr-rg" />
