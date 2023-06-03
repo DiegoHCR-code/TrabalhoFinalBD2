@@ -23,8 +23,8 @@ function App() {
     (async () => {
       if (session) {
         const { data: usuario, error } = await controleBD.auth.getUser();
-        const { data: resultado, status } = await controleBD.from("gerente").select("*").eq("id_gerente", usuario.user.id);
-        setUser({ info: user, gerente: (status === 200 && resultado.length === 1) });
+        const { data: resultado, status } = await controleBD.from("funcionario").select("*").eq("id", usuario.user.id);
+        setUser({ info: user, gerente: (status === 200 && resultado[0].eGerente) });
       }
     })();
   }, [session]);

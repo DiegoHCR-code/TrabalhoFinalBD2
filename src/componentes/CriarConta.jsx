@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { redirect } from "react-router-dom";
 import { controleBD } from '../controleSupabase';
+import { useNavigate } from "react-router-dom";
 
 // CREATE TABLE Funcionario (
 //     NumCarteiraT NUMERIC PRIMARY KEY,
@@ -33,6 +33,7 @@ const templateUsuario = {
 };
 
 function CriarConta() {
+    let navigate = useNavigate();
     const [infoUsuario, setInfoUsuario] = useState(templateUsuario);
 
     function ProcessarInfo(form) {
@@ -43,9 +44,7 @@ function CriarConta() {
             infoLida[info[0].slice(6)] = info[1];
         }
         setInfoUsuario(infoLida);
-        console.log();
-        console.log();
-        // ExecutarCadastro();
+        ExecutarCadastro();
     }
 
     async function ExecutarCadastro() {
@@ -55,31 +54,32 @@ function CriarConta() {
         });
         const userID = data.user.id;
         if (data) {
-            console.log(userID);
-            const { data, error } = await controleBD
-                .from('funcionario')
+            const { error } = await controleBD
+                .from('curriculo')
                 .insert([
                     {
-                        id: userID,
-                        numcarteirat: infoUsuario.carteira.replace(/\D/g,''),
-                        telefone: infoUsuario.tel,
-                        endereco: infoUsuario.end,
-                        datanasc: infoUsuario.datanasc,
-                        rg: infoUsuario.rg.replace(/\D/g,'')
+                        nome: infoUsuario.nome,
+                        rg: infoUsuario.rg.replace(/\D/g, ''),
+                        telefone: infoUsuario.tel.replace(/\D/g, ''),
+                        numcarteira: infoUsuario.carteira.replace(/\D/g, '')
                     }]);
-            if (data) {
-                const { data, error } = await controleBD
-                    .from('curriculo')
+            if (!error) {
+                const { error } = await controleBD
+                    .from('funcionario')
                     .insert([
                         {
-                            nome: infoUsuario.nome,
-                            rg: infoUsuario.rg.replace(/\D/g,''),
-                            telefone: infoUsuario.tel,
+                            id: userID,
+                            numcarteirat: infoUsuario.carteira.replace(/\D/g, ''),
+                            telefone: infoUsuario.tel.replace(/\D/g, ''),
+                            endereco: infoUsuario.end,
+                            datanasc: infoUsuario.datanasc,
+                            rg: infoUsuario.rg.replace(/\D/g, '')
                         }]);
-                if (data)
-                    redirect("/");
+                if (!error)
+                    navigate("/");
+                else console.log(error);
             }
-
+            else console.log(error);
         }
     }
 
