@@ -11,6 +11,7 @@ import CriarConta from './componentes/CriarConta';
 import CriarProduto from './componentes/CriarProduto';
 import EditarConta from './componentes/EditarConta';
 import EditarProduto from './componentes/EditarProduto'
+import CriarFornecedor from './componentes/CriarFonecedor';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
     path: "/editarproduto",
     element: <EditarProduto />
+  },
+  {
+    path: "/criarfornecedor",
+    element: <CriarFornecedor />
   },
    
 ]);
