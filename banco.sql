@@ -735,5 +735,5 @@ INSERT ON Dependente FOR EACH ROW EXECUTE FUNCTION calcularIdadeDependente();
 INSERT INTO Dependente (nome, telefone, parentesco, DtNascimento)
 VALUES ('João', '123456789', 'Filho', '2005-06-10');
 
-CREATE VIEW funcionario_completo AS 
+CREATE VIEW funcionario_completo AS
 select f.*, c.nome, co.datacontratamento from funcionario as f join curriculo as c on f.rg = c.rg join contrata as co on c.RG = co.rgpessoa;
