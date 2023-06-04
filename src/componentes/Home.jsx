@@ -42,7 +42,7 @@ function App() {
         <main>
           <header className='bg-body-secondary p-2 d-flex align-items-center'>
             <p className='my-2 mx-4'>Usuario logado: {user.email}</p>
-            <button className='btn btn-info mx-2' onClick={() => navigate('/editarconta', { state: { user: { ...user, propria: true } } })}>minha conta</button>
+            <button className='btn btn-info mx-2' onClick={() => navigate('/editfunc', { state: { user: { ...user, propria: true } } })}>minha conta</button>
             <button className='btn btn-warning mx-2' onClick={async () => await controleBD.auth.signOut()}>Sair</button>
           </header>
           <div className='m-4 p-4 bg-light'>
