@@ -7,7 +7,10 @@ function FuncionarioViewSimples({ fc, turnos }) {
     return (
         <div className="d-flex align-items-center justify-content-between p-2 rounded bg-primary-subtle my-2">
             <p>Nome: {fc.nome}</p>
-            <p>Telefone: {fc.telefone}</p>
+            <div>
+                <p>Telefone: {fc.telefone}</p>
+                <p>Email: {fc.email}</p>
+            </div>
             <div className="d-flex">
                 <p>Turno: </p>
                 {turnos
