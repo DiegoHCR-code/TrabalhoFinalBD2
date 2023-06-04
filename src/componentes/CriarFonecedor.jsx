@@ -14,7 +14,7 @@ import { templateFornecedor } from "./templates";
 function CriarFornecedor() {
     const [infoForne, setInfoForne] = useState(templateFornecedor);
     
-    function Processar(formForne) {
+    function ProcessarF(formForne) {
         const infof = new FormData(formForne);
     
         let infoLidaF = infoForne;
@@ -25,7 +25,7 @@ function CriarFornecedor() {
 
         setInfoForne(infoLidaF);
         ExecutarCadastroForne();
-        console.log("funfou");
+        console.log(infoLidaF, "funfou");
     }
 
     async function ExecutarCadastroForne(){
@@ -43,7 +43,7 @@ function CriarFornecedor() {
     return(
         <div>
             <p>Cadastro de Fornecedor</p>
-            <form onSubmit={(e) => {{e.preventDefault(); Processar(e.target);}}}>
+            <form onSubmit={(e) => {{e.preventDefault(); ProcessarF(e.target);}}}>
                 <fieldset>
                     <legend>Informações do Fornecedor</legend>
 
@@ -51,16 +51,16 @@ function CriarFornecedor() {
                     <input type="text" name="nome" id="nome" required />
 
                     <label htmlFor="telefone">Telefone:</label>
-                    <input type="number" minLength={8} name="telefone" id="telefone" required />
+                    <input type="text" minLength={8} name="telefone" id="telefone" required />
 
                     <label htmlFor="endereco">Endereço:</label>
                     <input type="text" name="endereco" id="endereco" required />
 
                     <label htmlFor="cnpj">CNPJ:</label>
-                    <input type="number" name="cnpj" id="cnpj" required />
+                    <input type="text" name="cnpj" id="cnpj" required />
 
                     <label htmlFor="id">Identificador:</label>
-                    <input type="number" name="id" id="id" required />
+                    <input type="text" name="id" id="id" required />
                 </fieldset>
                 <button type="submit">Cadastrar</button>
                 <button type="reset">Limpar Campos</button>
