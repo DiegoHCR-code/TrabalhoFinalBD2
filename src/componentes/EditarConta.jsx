@@ -14,6 +14,7 @@ function EditarConta() {
 
     useEffect(() => {
         PopularFormulario();
+        
     }, []);
 
     async function PopularFormulario() {
@@ -160,6 +161,7 @@ function EditarConta() {
 
                 <div className="row m-4 bg-warning-subtle rounded p-4 border border-warning">
                     <h4>Informações restritas</h4>
+                    {infoExtra.eGerente ? "" : <h6 className="text-danger">Você não tem autorização para alterar estas informações.</h6>}
                     <div className="row m-4">
                         <div className="col-auto">
                             <label htmlFor="edt-sal">Salario</label>

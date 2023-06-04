@@ -27,6 +27,7 @@ function CriarConta() {
         });
         const userID = data.user.id;
         if (data) {
+
             const { error } = await controleBD
                 .from('curriculo')
                 .insert([
@@ -36,7 +37,9 @@ function CriarConta() {
                         telefone: infoUsuario.tel.replace(/\D/g, ''),
                         numcarteira: infoUsuario.carteira.replace(/\D/g, '')
                     }]);
+                    
             if (!error) {
+
                 const { error } = await controleBD
                     .from('funcionario')
                     .insert([
@@ -49,6 +52,7 @@ function CriarConta() {
                             rg: infoUsuario.rg.replace(/\D/g, '')
                         }]);
                 if (!error) {
+
                     const { error } = await controleBD
                         .from('contrata')
                         .insert([
@@ -57,6 +61,7 @@ function CriarConta() {
                                 rgpessoa: infoUsuario.rg.replace(/\D/g, ''),
                                 numcarteira: infoUsuario.carteira.replace(/\D/g, '')
                             }]);
+
                     if (!error)
                         navigate("/");
                 }
