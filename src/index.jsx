@@ -10,8 +10,8 @@ import Home from './componentes/Home';
 import CriarConta from './componentes/CriarConta';
 import CriarProduto from './componentes/CriarProduto';
 import FuncionarioForm from './componentes/FuncionarioForm';
-import EditarProduto from './componentes/EditarProduto'
 import GerenciarFuncionarios from './componentes/GerenciarFuncionarios';
+import CriarFornecedor from './componentes/CriarFonecedor';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -37,8 +37,8 @@ const router = createBrowserRouter([
     element: <CriarProduto />
   },
   {
-    path: "/editarproduto",
-    element: <EditarProduto />
+    path: "/criarfornecedor",
+    element: <CriarFornecedor />
   },
    
 ]);
