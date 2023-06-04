@@ -8,8 +8,8 @@ function PainelGerente() {
 
   return (
     <>
-        <h4>Painel do gerente</h4>
-        <button className='btn btn-info' onClick={() => navigate('/gerfunc')}>Gerenciar Funcionarios</button>
+      <h4>Painel do gerente</h4>
+      <button className='btn btn-info' onClick={() => navigate('/gerfunc', { state: { gerente: true } })}>Gerenciar Funcionarios</button>
     </>
   );
 }

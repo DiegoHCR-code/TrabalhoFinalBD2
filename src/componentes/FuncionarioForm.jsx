@@ -1,24 +1,35 @@
 import { useEffect, useState } from "react";
 import { controleBD } from '../controleSupabase';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
 
 function FuncionarioForm() {
+
+    const navigate = useNavigate();
     let { state } = useLocation();
+
     const [infoUsuario, setInfoUsuario] = useState({});
-    let infoOriginal = {};
+    const [confDel, setConfDel] = useState(false);
+    const [infoOriginal, setOriginal] = useState({});
+
+    const [msg, setMsg] = useState(undefined);
 
     useEffect(() => {
         PopularFormulario();
     }, []);
 
     async function PopularFormulario() {
-        const { data, error } = await controleBD.from("funcionario_completo").select("*").eq("id", state.user.id);
-        if (!error) {
-            infoOriginal = { ...data[0] };
-            setInfoUsuario(data[0]);
-        } else
-            console.log(error);
+        if (state.user.id) {
+            const { data, error } = await controleBD.from("funcionario_completo").select("*").eq("id", state.user.id);
+            if (!error) {
+                setOriginal(data[0]);
+                setInfoUsuario(data[0]);
+            } else
+                console.log(error);
+        } else {
+            setOriginal(state.user);
+            setInfoUsuario(state.user);
+        }
     }
 
     async function AtualizarBanco() {
@@ -38,9 +49,9 @@ function FuncionarioForm() {
                     faltas_mes: infoUsuario.faltas_mes,
                     valetransporte: infoUsuario.valetransporte,
                 }])
-            .eq('id', infoUsuario.id);
+            .eq('rg', infoOriginal.rg);
 
-        if (!updFuncionario) {
+        if (updFuncionario) {
             console.log(updFuncionario);
             return;
         }
@@ -56,7 +67,7 @@ function FuncionarioForm() {
                 }])
             .eq('rg', infoOriginal.rg);
 
-        if (!updCurriculo) {
+        if (updCurriculo) {
             console.log(updCurriculo);
             return;
         }
@@ -71,16 +82,30 @@ function FuncionarioForm() {
                 }])
             .eq('rgpessoa', infoOriginal.rg);
 
-        if (!updContrata) {
+        if (updContrata) {
             console.log(updContrata);
             return;
         }
+        setMsg("Alterações realizadas com sucesso! Redirecionando...");
+        setTimeout(() => {
+            navigate(state.user.propria ? '/' : -1);
+        }, 2000);
+    }
 
+    async function DeleteUsuario() {
+        const { error } = await controleBD
+            .from('funcionario')
+            .delete()
+            .eq('rg', infoUsuario.rg);
+        if (error)
+            console.log(error);
+        else
+            navigate(state.user.propria ? '/' : -1);
     }
 
     return (
         <div>
-            <h2>Edite as informações do seu cadastro: </h2>
+            <h2>Editando as informações do {state.user.propria ? "seu cadastro" : `cadastro de ${infoUsuario.nome}`}: </h2>
             <form id="form-editar" className="d-flex flex-column align-items-start w-75 p-2 mx-auto bg-light rounded border border-4" onSubmit={(e) => { e.preventDefault(); AtualizarBanco(); }}>
 
                 <div className="row m-4">
@@ -100,13 +125,13 @@ function FuncionarioForm() {
 
                     <div className="col-auto">
                         <label htmlFor="edt-rg" className="form-label">RG</label>
-                        <input required type="text" name="edt-rg" id="edt-rg" className="form-control"
+                        <input disabled type="text" name="edt-rg" id="edt-rg" className="form-control"
                             value={infoUsuario.rg || ""} onChange={(e) => setInfoUsuario(u => ({ ...u, rg: e.target.value.replace(/\D/g, '') }))} />
                     </div>
 
                     <div className="col-auto">
                         <label htmlFor="edt-carteira" className="form-label">Carteira de Trabalho</label>
-                        <input required type="text" name="edt-carteira" id="edt-carteira" className="form-control"
+                        <input disabled type="text" name="edt-carteira" id="edt-carteira" className="form-control"
                             value={infoUsuario.numcarteirat || ""} onChange={(e) => setInfoUsuario(u => ({ ...u, numcarteirat: e.target.value.replace(/\D/g, '') }))} />
                     </div>
 
@@ -169,7 +194,7 @@ function FuncionarioForm() {
                         <div className="col-auto bg-light border border-2 p-2 my-4 d-flex align-items-center">
                             <label htmlFor="edt-faltas" className="form-label">Faltas no mes</label>
                             <input disabled type="number" name="edt-faltas" id="edt-faltas" className="form-control"
-                                defaultValue={infoUsuario.faltas_mes || 0} />
+                                value={infoUsuario.faltas_mes || 0} />
                             {infoUsuario.eGerente ? <button className="btn btn-warning" type="button" onClick={() => setInfoUsuario(i => ({ ...i, faltas_mes: i.faltas_mes + 1 }))}>Somar +1 falta</button> : ""}
                         </div>
                     </div>
@@ -215,8 +240,23 @@ function FuncionarioForm() {
                 <div>
                     <p>Dependentes: TODO- gerenciar</p>
                 </div>
+                {msg !== undefined ?
+                    <div className="row m-auto">
+                        <h4 className="p-4 bg-success text-white">{msg}</h4>
+                    </div> : ""}
 
-                <button className="btn btn-primary" type='submit'>Salvar</button>
+                <div className="m-auto">
+                    <button className="btn btn-primary mx-2" type='submit'>Salvar</button>
+                    <button className="btn btn-dark mx-2" onClick={() => navigate(-1)}>Cancelar</button>
+                    <button type="button" className="btn btn-warning mx-5" onClick={() => setConfDel(!confDel)}>Excluir</button>
+                </div>
+
+                {confDel ?
+                    <div className='bg-danger text-white p-2 d-flex'>
+                        <p>Tem certeza que deseja excluir este funcionário e apagar todas as suas informações do banco?</p>
+                        <button type="button" className='btn btn-warning mx-2 btn-sm' onClick={() => DeleteUsuario()}>Excluir</button>
+                        <button type="button" className='btn btn-light mx-2 btn-sm' onClick={() => setConfDel(false)}>Cancelar</button>
+                    </div> : ""}
             </form>
         </div>
     );
