@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import { controleBD } from '../controleSupabase';
 import FuncionarioViewSimples from "./FuncionarioViewSimples";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 
 function GerenciarFuncionarios() {
     const navigate = useNavigate();
+    let { state } = useLocation();
     const [funcionarios, setFuncionarios] = useState([]);
     const [turnos, setTurnos] = useState([]);
 
     useEffect(() => {
-        //get
+        if (!state.gerente) {
+            navigate('/');
+        }
+
         controleBD.from("funcionario_completo").select("*").then(r => {
             if (!r.error) {
                 PreencherEmails(r.data).then(f => {
@@ -20,6 +24,7 @@ function GerenciarFuncionarios() {
             else
                 console.log(r.error);
         });
+        
         controleBD.from("turnos").select("*").then(r => {
             if (!r.error) {
                 setTurnos(r.data);
