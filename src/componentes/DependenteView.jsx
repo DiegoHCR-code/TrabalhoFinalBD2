@@ -7,7 +7,7 @@ function DependenteView({ d, rem }) {
             <td>{d.telefone}</td>
             <td>{d.parentesco}</td>
             <td>
-                <button onClick={() => rem()} className="btn btn-danger btn-sm">Remover</button>
+                <button type="button" onClick={() => rem()} className="btn btn-danger btn-sm">Remover</button>
             </td>
         </tr>
     );

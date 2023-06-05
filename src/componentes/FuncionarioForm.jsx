@@ -262,7 +262,7 @@ function FuncionarioForm() {
                 </div>
 
                 <div className="row m-4">
-                    <GerenciarDependentes c={state.user.numcarteirat} />
+                    <GerenciarDependentes fkFuncionario={state.user.numcarteirat} />
                 </div>
 
                 <div className="row m-4 bg-warning-subtle rounded p-4 border border-warning">

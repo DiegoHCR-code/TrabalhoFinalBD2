@@ -2,30 +2,52 @@ import { useEffect, useState } from "react";
 import { controleBD } from "../controleSupabase";
 import DependenteView from "./DependenteView";
 
-function GerenciarDependentes({ c }) {
+function GerenciarDependentes({ fkFuncionario }) {
     const [dep, setDep] = useState([]);
+    const [mostraCadastro, setMostraCadastro] = useState(false);
 
     useEffect(() => {
-        if (c)
-            controleBD.from("dependente").select("*").eq("fk_funcionario_numcarteirat", c).then(({ data }) => {
-                setDep(data);
-                console.log(data);
-            });
+        if (fkFuncionario)
+            LerDependentes();
     }, []);
 
-    async function RemoverDependente(fk, dt) {
-        console.log(fk);
-        // const { error } = await controleBD
-        //     .from('dependente')
-        //     .delete()
-        //     .eq('fk_funcionario_numcarteirat', fk)
-        //     .eq('dtnascimento', dt);
+    function LerDependentes() {
+        controleBD.from("dependente").select("*").eq("fk_funcionario_numcarteirat", fkFuncionario).then(({ data }) => {
+            setDep(data);
+            console.log(data);
+        });
+    }
 
-        // if (error)
-        //     console.log(error);
-        // else {
-        //     console.log();
-        // }
+    async function RemoverDependente(fk, dt) {
+        const { error } = await controleBD
+            .from('dependente')
+            .delete()
+            .eq('fk_funcionario_numcarteirat', fk)
+            .eq('dtnascimento', dt);
+
+        if (error)
+            console.log(error);
+        else {
+            LerDependentes();
+        }
+    }
+
+    async function CadastrarDependente() {
+        const nomeEl = document.getElementById("depnome");
+        const parEl = document.getElementById("deppar");
+        const nascEl = document.getElementById("depnasc");
+        const telEl = document.getElementById("deptel");
+        const telLimpo = telEl.value.replace(/\D/g, '');
+        const { error } = await controleBD
+            .from('dependente')
+            .insert(
+                {
+                    dtnascimento: nascEl.value,
+                    fk_funcionario_numcarteirat: fkFuncionario,
+                    nome: nomeEl.value,
+                    parentesco: parEl.value,
+                    telefone: telLimpo,
+                });
     }
 
     return (
@@ -47,7 +69,24 @@ function GerenciarDependentes({ c }) {
                     : ""}
             </table>
             <div>
-                <button className="btn btn-info">Cadastrar</button>
+                <button type="button" onClick={() => setMostraCadastro(!mostraCadastro)} className="btn btn-info">Cadastrar</button>
+                {mostraCadastro ?
+                    <div className="mx-4 bg-light p-2">
+                        <label htmlFor="depnome" className="form-label">Nome</label>
+                        <input required type="text" name="depnome" id="depnome" className="form-control" />
+
+                        <label htmlFor="depnasc" className="form-label">Data de nascimento: </label>
+                        <input required type="date" name="depnasc" id="depnasc" className="form-control" />
+
+                        <label htmlFor="deptel" className="form-label">Telefone</label>
+                        <input required type="text" name="deptel" id="deptel" className="form-control" />
+
+                        <label htmlFor="deppar" className="form-label">Parentesco</label>
+                        <input required type="text" name="deppar" id="deppar" className="form-control" />
+
+                        <button type="button" className="btn btn-primary" onClick={() => CadastrarDependente()}>Confirmar</button>
+
+                    </div> : ""}
             </div>
         </div>
     );
