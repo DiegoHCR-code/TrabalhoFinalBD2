@@ -3,9 +3,7 @@ import { controleBD } from '../controleSupabase';
 import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
 
-import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Container, Form, Button, Row, Col, Card } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { v4 as uuidv4 } from 'uuid';
 import GerenciarDependentes from "./GerenciarDependentes";
 
@@ -22,8 +20,6 @@ function FuncionarioForm() {
 
 
     /*-------FOTO----------*/
-    const user = useUser();
-    const supabase = useSupabaseClient();
     //imagens
     const [images, setImages] = useState([]);
 
@@ -178,11 +174,10 @@ function FuncionarioForm() {
                         {state.user.id === null ?
                             <>
                                 <h1>É preciso fazer login</h1>
-                                <div><a href="Auth">Pagina cadasto</a></div>
+                                <div><a href="/criarconta">Pagina cadasto</a></div>
                             </>
                             :
                             <>
-
                                 {images.length == 0 ?
                                     <>
                                         <h3>Insira sua foto abaixo</h3>
@@ -217,7 +212,6 @@ function FuncionarioForm() {
                             </>}
                     </Container>
 
-
                     <div className="col-auto">
                         <label htmlFor="edt-nome" className="form-label">Nome completo</label>
                         <input required type="text" name="edt-nome" id="edt-nome" className="form-control"
@@ -244,8 +238,6 @@ function FuncionarioForm() {
 
                 </div>
 
-                <GerenciarDependentes c={infoUsuario.numcarteirat} />
-
                 <div className="row m-4">
                     <h4>Contato</h4>
 
@@ -267,6 +259,10 @@ function FuncionarioForm() {
                             defaultValue={state.user.email || ""} disabled />
                     </div>
 
+                </div>
+
+                <div className="row m-4">
+                    <GerenciarDependentes c={state.user.numcarteirat} />
                 </div>
 
                 <div className="row m-4 bg-warning-subtle rounded p-4 border border-warning">
