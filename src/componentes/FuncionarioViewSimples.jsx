@@ -6,26 +6,31 @@ function FuncionarioViewSimples({ fc, turnos }) {
 
 
     return (
-        <div className='bg-primary-subtle my-2 rounded border border-2 border-dark'>
-            <div className="d-flex align-items-center justify-content-between p-2">
-                <p className='fw-bold'>Nome: {fc.nome}</p>
+        <tr>
+            <td>
+                <p className='fw-bold'>{fc.nome}</p>
+            </td>
+            <td>
                 <div>
                     <p>Telefone: {fc.telefone}</p>
                     <p>Email: {fc.email}</p>
                 </div>
+            </td>
+            <td>
                 <div className="d-flex">
                     <p>Turno: </p>
                     {turnos
                         .filter(ts => ts.turno_s__pk === fc.fk_turno_s__turno_s__pk)
                         .map((t, i) => <p key={i} className="mx-1">{t.turnos}</p>)}
                 </div>
+            </td>
+            <td>
                 <div>
                     <button className="btn btn-secondary btn-sm mx-2"
                         onClick={() => navigate('/editfunc', { state: { user: { ...fc, propria: false, eGerente: true } } })}>Editar</button>
                 </div>
-            </div>
-
-        </div>
+            </td>
+        </tr>
 
     );
 }

@@ -107,16 +107,25 @@ function GerenciarFuncionarios() {
                     <button className="btn btn-info btn-sm m-2" onClick={() => ExecutarConsulta()}>Procurar</button>
                     <button className="btn btn-info btn-sm m-2" onClick={() => GetTodosFuncionarios()}>Ver Todos</button>
                 </div>
-                <div>
-                    {buscaExecutada ?
-                        (funcionarios.some(_ => true)
-                            ? <h4>Resultado: {funcionarios.length} encontrados</h4>
-                            : <h4 className="p-2 m-auto w-50 rounded bg-warning text-center">Nenhum funcionario encontrado</h4>) : ""}
-
-                    {funcionarios.map((f, i) => {
-                        return <FuncionarioViewSimples key={i} fc={f} turnos={turnos} />;
-                    })}
-                </div>
+                {buscaExecutada ?
+                    (funcionarios.some(_ => true)
+                        ? <h4>Resultado: {funcionarios.length} encontrados</h4>
+                        : <h4 className="p-2 m-auto w-50 rounded bg-warning text-center">Nenhum funcionario encontrado</h4>) : ""}
+                <table className="table table-light m-2">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Contato</th>
+                            <th>Turno</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {funcionarios.map((f, i) => {
+                            return <FuncionarioViewSimples key={i} fc={f} turnos={turnos} />;
+                        })}
+                    </tbody>
+                </table>
                 <button className="btn btn-primary btn-lg" onClick={() => navigate(-1)}>Voltar</button>
             </div>
         </>
