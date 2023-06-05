@@ -28,7 +28,6 @@ function CriarProduto() {
         const { error} = await controleBD.from("produto").insert([
             {
                 nome: infoProds.nome,
-                codigo: infoProds.codigo.replace(/\D/g, ''),
                 precoproduto: infoProds.precoproduto.replace(/\D/g, ''),
             }]);
       console.log("cadastrou");
@@ -47,10 +46,8 @@ function CriarProduto() {
           <label htmlFor="precoproduto">Preço:</label>
           <input type="number" name="precoproduto" id="precoproduto" required />
 
-          <label htmlFor= "codigo">Código:</label>
-          <input type="number" name="codigo" id="codigo" required/>
         </fieldset>
-        <button type="submit">Cadastrarrrrrrrrrr</button>
+        <button type="submit">Cadastrar</button>
         <button type="reset">Limpar Campos</button>
       </form>
     </div>
