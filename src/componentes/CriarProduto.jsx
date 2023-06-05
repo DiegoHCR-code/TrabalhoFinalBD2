@@ -34,20 +34,20 @@ function CriarProduto() {
   }
 
   return (
-    <div>
-      <p>Preencha para criar um novo Produto: </p>
+    <div className='bg-primary-subtle my-2 rounded border border-2 border-dark d-flex align-items-center justify-content-center flex-column text-lg-center'>
+      <p className="mt-5">Preencha para criar um novo Produto: </p>
       <form onSubmit={(e) => {{e.preventDefault(); Processar(e.target);}}}>
         <fieldset>
-          <legend>Informações do Produto</legend>
+          <legend className="fw-bold mb-3">Informações do Produto</legend>
 
-          <label htmlFor="nome">Nome:</label>
-          <input type="text" name="nome" id="nome" required />
+          <label htmlFor="nome" className="mb-5">Nome:</label>
+          <input type="text" name="nome" id="nome" className="me-5" required />
 
-          <label htmlFor="precoproduto">Preço:</label>
+          <label htmlFor="precoproduto" >Preço:</label>
           <input type="number" name="precoproduto" id="precoproduto" required />
 
         </fieldset>
-        <button type="submit">Cadastrar</button>
+        <button type="submit" className="me-5 mb-5">Cadastrar</button>
         <button type="reset">Limpar Campos</button>
       </form>
     </div>
