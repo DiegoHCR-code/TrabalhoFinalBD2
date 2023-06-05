@@ -3,6 +3,13 @@ import { controleBD } from '../controleSupabase';
 import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
 
+import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { Container, Form, Button, Row, Col, Card } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { v4 as uuidv4 } from 'uuid';
+
+const CDNURL = process.env.REACT_APP_SUPABASE_SERVER + "/storage/v1/object/public/imagens/";
+
 function FuncionarioForm() {
 
     const navigate = useNavigate();
@@ -12,6 +19,61 @@ function FuncionarioForm() {
     const [confDel, setConfDel] = useState(false);
     const [infoOriginal, setOriginal] = useState({});
 
+
+    /*-------FOTO----------*/
+    const user = useUser();
+    const supabase = useSupabaseClient();
+    //imagens
+    const [images, setImages] = useState([]);
+
+    async function getImages() {
+        const { data, error } = await controleBD
+            .storage
+            .from('imagens')
+            .list(state.user?.id + "/", {
+                limit: 100,
+                offset: 0,
+                sortBy: { column: "name", order: "asc" }
+            });
+        if (data !== null) {
+            setImages(data);
+        } else {
+            alert('Erro ao carregar imagens');
+            console.log(error);
+        }
+
+    }
+    useEffect(() => {
+        if (state.user.id) {
+            getImages();
+        }
+    }, [state.user.id]);
+    //Imagens apenas do usuario
+    async function uploadImage(e) {
+        let file = e.target.files[0];
+
+        const { data, error } = await controleBD
+            .storage.from('imagens')
+            .upload(state.user.id + "/" + uuidv4(), file)//id do usuario / id aleatorio
+        if (data) {
+            getImages();
+        } else {
+            console.log(error);
+        }
+    }
+
+    async function deleteImage(imagename) {
+        const { error } = await controleBD
+            .storage.from('imagens')
+            .remove([state.user.id + "/" + imagename])
+        if (error) {
+            alert(error);
+        } else {
+            getImages();
+        }
+    }
+
+    /*-------FOTO----------*/
     const [msg, setMsg] = useState(undefined);
 
     useEffect(() => {
@@ -110,6 +172,50 @@ function FuncionarioForm() {
 
                 <div className="row m-4">
                     <h4>Informações basicas</h4>
+                    <Container align="center" className="container-sm mt-4">
+                        { }
+                        {state.user.id === null ?
+                            <>
+                                <h1>É preciso fazer login</h1>
+                                <div><a href="Auth">Pagina cadasto</a></div>
+                            </>
+                            :
+                            <>
+                                
+                                {images.length == 0 ?
+                                    <>
+                                        <h3>Insira sua foto abaixo</h3>
+                                        <Form.Group className="mb-3" style={{ maxWidth: "500px" }}>
+                                            <Form.Control type="file" accept="image/png, images/jpeg, images/jpg" onChange={(e) => uploadImage(e)}></Form.Control>
+                                        </Form.Group>
+                                    </>
+                                    :
+                                    <>
+                                        { }
+                                        <h3>Para cadastrar outra foto é preciso deletar a atual</h3>
+                                        <Row justifyContent="center">
+                                            {
+                                                images.map((image) => {
+                                                    return (
+                                                        <Col  xs={1} md={3} key={CDNURL + state.user.id + "/" + image.name}>
+                                                            <Card >
+                                                                <Card.Img variant="top" src={CDNURL + state.user.id + "/" + image.name} />
+                                                                <Card.Body>
+                                                                    <Button variant="danger" onClick={() => deleteImage(image.name)}>Delete Image</Button>
+                                                                </Card.Body>
+                                                            </Card>
+                                                        </Col>
+                                                    )
+                                                }
+                                                )
+                                            }
+                                        </Row>
+                                    </>
+
+                                }
+                            </>}
+                    </Container>
+
 
                     <div className="col-auto">
                         <label htmlFor="edt-nome" className="form-label">Nome completo</label>
