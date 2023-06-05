@@ -87,9 +87,7 @@ function FuncionarioForm() {
             return;
         }
         setMsg("Alterações realizadas com sucesso! Redirecionando...");
-        setTimeout(() => {
-            navigate(state.user.propria ? '/' : -1);
-        }, 2000);
+        setTimeout(() => navigate(state.user.propria ? '/' : -1), 2000);
     }
 
     async function DeleteUsuario() {
@@ -99,8 +97,10 @@ function FuncionarioForm() {
             .eq('rg', infoUsuario.rg);
         if (error)
             console.log(error);
-        else
-            navigate(state.user.propria ? '/' : -1);
+        else {
+            setMsg("Funcionário excluido com sucesso. Redirecionando...")
+            setTimeout(() => navigate(state.user.propria ? '/' : -1), 2000);
+        }
     }
 
     return (
@@ -241,7 +241,6 @@ function FuncionarioForm() {
                     <p>Dependentes: TODO- gerenciar</p>
                 </div>
 
-
                 <div className="m-auto">
                     <button className="btn btn-primary mx-2" type='submit'>Salvar</button>
                     <button className="btn btn-dark mx-2" onClick={() => navigate(-1)}>Cancelar</button>
@@ -255,7 +254,7 @@ function FuncionarioForm() {
                         <button type="button" className='btn btn-light mx-2 btn-sm' onClick={() => setConfDel(false)}>Cancelar</button>
                     </div> : ""}
             </form>
-            {msg === undefined ?
+            {msg !== undefined ?
                 <div className="position-absolute top-50 start-50 bg-success shadow border border-2 p-4">
                     <h4 className="text-white">{msg}</h4>
                 </div> : ""

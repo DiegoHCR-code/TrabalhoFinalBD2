@@ -8,7 +8,7 @@ function App() {
   const { user, session } = useLoaderData();
 
   return (
-    <>
+    <main className='container-lg bg-light rounded m-auto p-4'>
       <h1>Restaurante</h1>
       {(session && user) ?
         <div className='m-4 p-4 bg-light'>
@@ -17,7 +17,7 @@ function App() {
         :
         <Auth />
       }
-    </>
+    </main>
   );
 }
 

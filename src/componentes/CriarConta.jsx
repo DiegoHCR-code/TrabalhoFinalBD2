@@ -5,7 +5,6 @@ import { templateFuncionario } from "./templates";
 import moment from 'moment';
 
 function CriarConta() {
-
     let navigate = useNavigate();
     const [infoUsuario, setInfoUsuario] = useState(templateFuncionario);
 
@@ -73,7 +72,6 @@ function CriarConta() {
 
     return (
         <div>
-
             <p>Preencha o formulario com suas informações: </p>
             <form onSubmit={(e) => { e.preventDefault(); ProcessarInfo(e.target); }}>
                 <fieldset>
@@ -106,12 +104,6 @@ function CriarConta() {
                     <input required type="text" name="inscr-end" id="inscr-end" />
 
                 </fieldset>
-
-                <div>
-                    {/* <label htmlFor="inscr-foto">Enviar uma foto: </label>
-                    <input type="file" accept=".png,.jpg,.jpeg" name="inscr-foto" id="inscr-foto" onChange={() => EnviarFoto()} />
-                    <img src="" alt="foto do usuario" id="inscr-foto-vis" /> */}
-                </div>
 
                 <label htmlFor="inscr-senha">Senha</label>
                 <input required minLength={6} type="password" name="inscr-senha" id="inscr-senha" />
