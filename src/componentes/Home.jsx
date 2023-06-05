@@ -50,7 +50,9 @@ function App() {
           </div >
         </main>
         :
-        <Auth />}
+        <Auth />
+      }
+  
     </>
   );
 }
