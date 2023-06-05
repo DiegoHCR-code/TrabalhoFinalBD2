@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Children } from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider, } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider, } from "react-router-dom";
 
 import './index.css';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -13,39 +13,54 @@ import FotoUsuario from './componentes/FotoUsuario';
 import FuncionarioForm from './componentes/FuncionarioForm';
 import GerenciarFuncionarios from './componentes/GerenciarFuncionarios';
 import CriarFornecedor from './componentes/CriarFonecedor';
+import HeaderGeral from './componentes/HeaderGeral';
+import AuthLoader from './componentes/AuthLoader';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+const Layout = () => (
+  <>
+    <HeaderGeral />
+    <Outlet />
+  </>
+);
+
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Home/>
-  },
-  {
-    path: "/criarconta",
-    element: <CriarConta />
-  },
-  {
-    path: "/editfunc",
-    element: <FuncionarioForm />
-  },
-  {
-    path: "/gerfunc",
-    element: <GerenciarFuncionarios />
-  },
-  {
-    path: "/criarproduto",
-    element: <CriarProduto />
-  },
-  {
-    path: "/fotousuario",
-    element: <FotoUsuario />
-  },
-  {
-    path: "/criarfornecedor",
-    element: <CriarFornecedor />
-  },
-
+    element: <Layout />,
+    loader: AuthLoader,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+        loader: AuthLoader
+      },
+      {
+        path: "/criarconta",
+        element: <CriarConta />
+      },
+      {
+        path: "/editfunc",
+        element: <FuncionarioForm />
+      },
+      {
+        path: "/gerfunc",
+        element: <GerenciarFuncionarios />
+      },
+      {
+        path: "/criarproduto",
+        element: <CriarProduto />
+      },
+      {
+        path: "/fotousuario",
+        element: <FotoUsuario />
+      },
+      {
+        path: "/criarfornecedor",
+        element: <CriarFornecedor />
+      }
+    ]
+  }
 ]);
 
 root.render(

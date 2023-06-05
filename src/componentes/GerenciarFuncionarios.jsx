@@ -24,7 +24,7 @@ function GerenciarFuncionarios() {
             else
                 console.log(r.error);
         });
-        
+
         controleBD.from("turnos").select("*").then(r => {
             if (!r.error) {
                 setTurnos(r.data);
@@ -51,8 +51,8 @@ function GerenciarFuncionarios() {
             <div className="w-75 m-auto">
                 <h2>Funcionarios Registrados</h2>
                 {funcionarios.map((f, i) => <FuncionarioViewSimples key={i} fc={f} turnos={turnos} />)}
+                <button className="btn btn-info" onClick={() => navigate(-1)}>Voltar</button>
             </div>
-            <button className="btn btn-primary" onClick={() => navigate(-1)}>Voltar</button>
         </>
     );
 }

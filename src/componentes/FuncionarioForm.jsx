@@ -240,10 +240,7 @@ function FuncionarioForm() {
                 <div>
                     <p>Dependentes: TODO- gerenciar</p>
                 </div>
-                {msg !== undefined ?
-                    <div className="row m-auto">
-                        <h4 className="p-4 bg-success text-white">{msg}</h4>
-                    </div> : ""}
+
 
                 <div className="m-auto">
                     <button className="btn btn-primary mx-2" type='submit'>Salvar</button>
@@ -258,6 +255,11 @@ function FuncionarioForm() {
                         <button type="button" className='btn btn-light mx-2 btn-sm' onClick={() => setConfDel(false)}>Cancelar</button>
                     </div> : ""}
             </form>
+            {msg === undefined ?
+                <div className="position-absolute top-50 start-50 bg-success shadow border border-2 p-4">
+                    <h4 className="text-white">{msg}</h4>
+                </div> : ""
+            }
         </div>
     );
 }
