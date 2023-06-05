@@ -18,60 +18,6 @@ function FuncionarioForm() {
     const [infoUsuario, setInfoUsuario] = useState({});
     const [confDel, setConfDel] = useState(false);
     const [infoOriginal, setOriginal] = useState({});
-
-
-    /*-------FOTO----------*/
-    //imagens
-    const [images, setImages] = useState([]);
-
-    async function getImages() {
-        const { data, error } = await controleBD
-            .storage
-            .from('imagens')
-            .list(state.user?.id + "/", {
-                limit: 100,
-                offset: 0,
-                sortBy: { column: "name", order: "asc" }
-            });
-        if (data !== null) {
-            setImages(data);
-        } else {
-            alert('Erro ao carregar imagens');
-            console.log(error);
-        }
-
-    }
-    useEffect(() => {
-        if (state.user.id) {
-            getImages();
-        }
-    }, [state.user.id]);
-    //Imagens apenas do usuario
-    async function uploadImage(e) {
-        let file = e.target.files[0];
-
-        const { data, error } = await controleBD
-            .storage.from('imagens')
-            .upload(state.user.id + "/" + uuidv4(), file);//id do usuario / id aleatorio
-        if (data) {
-            getImages();
-        } else {
-            console.log(error);
-        }
-    }
-
-    async function deleteImage(imagename) {
-        const { error } = await controleBD
-            .storage.from('imagens')
-            .remove([state.user.id + "/" + imagename]);
-        if (error) {
-            alert(error);
-        } else {
-            getImages();
-        }
-    }
-
-    /*-------FOTO----------*/
     const [msg, setMsg] = useState(undefined);
 
     useEffect(() => {
