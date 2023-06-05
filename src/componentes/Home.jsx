@@ -49,6 +49,9 @@ function App() {
         :
         <Auth />
       }
+      <div>
+      <button onClick={() => navigate('/FotoUsuario', {state: { user: {...user, propria: true } }})}>Foto Usuario</button>
+      <a href="CriarFoto">Criar Fotos</a></div>
     </>
   );
 }
