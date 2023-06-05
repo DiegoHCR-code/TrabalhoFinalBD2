@@ -50,7 +50,7 @@ function CriarProduto() {
           <label htmlFor= "codigo">Código:</label>
           <input type="number" name="codigo" id="codigo" required/>
         </fieldset>
-        <button type="submit">Cadastrar</button>
+        <button type="submit">Cadastrarrrrrrrrrr</button>
         <button type="reset">Limpar Campos</button>
       </form>
     </div>
