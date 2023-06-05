@@ -14,7 +14,7 @@ import moment from "moment";
 import { upload } from "@testing-library/user-event/dist/upload";
 const CDNURL =process.env.REACT_APP_SUPABASE_SERVER + "/storage/v1/object/public/imagens/" ;
 
-function FotoUsuario() {
+function FotoUsuario({c}) {
 
     let navigate = useNavigate();
     //const [email, setEmail] = useState("");
@@ -38,7 +38,7 @@ function FotoUsuario() {
         const { data, error } = await controleBD
             .storage
             .from('imagens')
-            .list(state.user?.id + "/", {
+            .list(c?.id + "/", {
                 limit: 100,
                 offset: 0,
                 sortBy: { column: "name", order: "asc" }
@@ -52,17 +52,17 @@ function FotoUsuario() {
 
     }
     useEffect(() => {
-        if(state.user.id ){
+        if(c.id ){
             getImages();
         }
-    },[state.user.id ]);
+    },[c.id ]);
     //Imagens apenas do usuario
     async function uploadImage(e) {
         let file = e.target.files[0];
 
         const { data, error } = await controleBD
             .storage.from('imagens')
-            .upload(state.user.id + "/" + uuidv4(), file)//id do usuario / id aleatorio
+            .upload(c.id + "/" + uuidv4(), file)//id do usuario / id aleatorio
         if (data) {
             getImages();
         } else {
@@ -73,7 +73,7 @@ function FotoUsuario() {
     async function deleteImage(imagename){
         const { error } = await controleBD
         .storage.from('imagens')
-        .remove([state.user.id + "/" + imagename])
+        .remove([c.id + "/" + imagename])
         if(error){
             alert(error);
         }else{
@@ -83,39 +83,49 @@ function FotoUsuario() {
     /////////////////////////////////////
 
     return (
+      
         <Container align="center" className="container-sm mt-4">
-            { }
-            {state.user.id === null ? <>
+        { }
+        {c.id === null ?
+            <>
                 <h1>É preciso fazer login</h1>
-                <div><a href="Auth">Pagina cadasto</a></div>
+                <div><a href="/criarconta">Pagina cadasto</a></div>
             </>
-                :
-                <>
-                    <h1>Imagem usuario</h1>
-                    <Form.Group className="mb-3" style={{ maxWidth: "500px" }}>
-                        <Form.Control type="file" accept="image/png, images/jpeg, images/jpg" onChange={(e) => uploadImage(e)}></Form.Control>
-                    </Form.Group>
-                    {}
-                    <Row xs={1} md={3} className="g-4">
-                        {
-                            images.map((image) => {
-                                return (
-                                    <Col key={CDNURL + state.user.id + "/" + image.name}>
-                                        <Card>
-                                            <Card.Img variant="top" src={CDNURL + state.user.id + "/" + image.name} />
-                                            <Card.Body>
-                                                <Button variant="danger" onClick={() => deleteImage(image.name) }>Delete Image</Button>
-                                            </Card.Body>
-                                        </Card>
-                                    </Col>
+            :
+            <>
+                {images.length == 0 ?
+                    <>
+                        <h3>Insira sua foto abaixo</h3>
+                        <Form.Group className="mb-3" style={{ maxWidth: "500px" }}>
+                            <Form.Control type="file" accept="image/png, images/jpeg, images/jpg" onChange={(e) => uploadImage(e)}></Form.Control>
+                        </Form.Group>
+                    </>
+                    :
+                    <>
+                        { }
+                        <h3>Para cadastrar outra foto é preciso deletar a atual</h3>
+                        <Row justifyContent="center">
+                            {
+                                images.map((image) => {
+                                    return (
+                                        <Col xs={1} md={3} key={CDNURL + c.id + "/" + image.name}>
+                                            <Card >
+                                                <Card.Img variant="top" src={CDNURL + c.id + "/" + image.name} />
+                                                <Card.Body>
+                                                    <Button variant="danger" onClick={() => deleteImage(image.name)}>Delete Image</Button>
+                                                </Card.Body>
+                                            </Card>
+                                        </Col>
+                                    );
+                                }
                                 )
                             }
-                            )
-                        }
-                    </Row>
-                </>
-            }
-        </Container>
+                        </Row>
+                    </>
+
+                }
+            </>}
+    </Container>
     );
 }
 

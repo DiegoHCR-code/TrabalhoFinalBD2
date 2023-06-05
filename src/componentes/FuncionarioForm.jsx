@@ -6,6 +6,7 @@ import moment from "moment";
 import { Container, Form, Button, Row, Col, Card } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
 import GerenciarDependentes from "./GerenciarDependentes";
+import FotoUsuario from "./FotoUsuario";
 
 const CDNURL = process.env.REACT_APP_SUPABASE_SERVER + "/storage/v1/object/public/imagens/";
 
@@ -169,48 +170,7 @@ function FuncionarioForm() {
 
                 <div className="row m-4">
                     <h4>Informações basicas</h4>
-                    <Container align="center" className="container-sm mt-4">
-                        { }
-                        {state.user.id === null ?
-                            <>
-                                <h1>É preciso fazer login</h1>
-                                <div><a href="/criarconta">Pagina cadasto</a></div>
-                            </>
-                            :
-                            <>
-                                {images.length == 0 ?
-                                    <>
-                                        <h3>Insira sua foto abaixo</h3>
-                                        <Form.Group className="mb-3" style={{ maxWidth: "500px" }}>
-                                            <Form.Control type="file" accept="image/png, images/jpeg, images/jpg" onChange={(e) => uploadImage(e)}></Form.Control>
-                                        </Form.Group>
-                                    </>
-                                    :
-                                    <>
-                                        { }
-                                        <h3>Para cadastrar outra foto é preciso deletar a atual</h3>
-                                        <Row justifyContent="center">
-                                            {
-                                                images.map((image) => {
-                                                    return (
-                                                        <Col xs={1} md={3} key={CDNURL + state.user.id + "/" + image.name}>
-                                                            <Card >
-                                                                <Card.Img variant="top" src={CDNURL + state.user.id + "/" + image.name} />
-                                                                <Card.Body>
-                                                                    <Button variant="danger" onClick={() => deleteImage(image.name)}>Delete Image</Button>
-                                                                </Card.Body>
-                                                            </Card>
-                                                        </Col>
-                                                    );
-                                                }
-                                                )
-                                            }
-                                        </Row>
-                                    </>
-
-                                }
-                            </>}
-                    </Container>
+                    <FotoUsuario c={state.user} />
 
                     <div className="col-auto">
                         <label htmlFor="edt-nome" className="form-label">Nome completo</label>
