@@ -3,12 +3,9 @@ import { controleBD } from '../controleSupabase';
 import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
 
-import { Container, Form, Button, Row, Col, Card } from 'react-bootstrap';
-import { v4 as uuidv4 } from 'uuid';
+
 import GerenciarDependentes from "./GerenciarDependentes";
 import FotoUsuario from "./FotoUsuario";
-
-const CDNURL = process.env.REACT_APP_SUPABASE_SERVER + "/storage/v1/object/public/imagens/";
 
 function FuncionarioForm() {
 
