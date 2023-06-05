@@ -10,7 +10,9 @@ import Home from './componentes/Home';
 import CriarConta from './componentes/CriarConta';
 import CriarProduto from './componentes/CriarProduto';
 import EditarConta from './componentes/EditarConta';
-import EditarProduto from './componentes/EditarProduto'
+import EditarProduto from './componentes/EditarProduto';
+import FotoUsuario from './componentes/FotoUsuario';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -32,9 +34,9 @@ const router = createBrowserRouter([
     element: <CriarProduto />
   },
   {
-    path: "/editarproduto",
-    element: <EditarProduto />
-  },
+    path: "/fotousuario",
+    element: <FotoUsuario />
+  }
    
 ]);
 
