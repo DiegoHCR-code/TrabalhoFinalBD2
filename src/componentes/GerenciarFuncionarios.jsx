@@ -17,8 +17,6 @@ function GerenciarFuncionarios() {
             navigate('/');
         }
 
-
-
         controleBD.from("turnos").select("*").then(r => {
             if (!r.error) {
                 setTurnos(r.data);
@@ -43,7 +41,6 @@ function GerenciarFuncionarios() {
     function GetTodosFuncionarios() {
         controleBD.from("funcionario_completo").select("*").then(r => {
             if (!r.error) {
-                console.log(r.data);
                 PreencherEmails(r.data).then(f => {
                     setFuncionarios(f);
                 });
@@ -53,21 +50,41 @@ function GerenciarFuncionarios() {
         });
     }
 
+    function LerTurno(t) {
+        return turnos.find(({ turnos }) => turnos.toLowerCase().replace('ã', 'a').includes(t));
+    }
+
     function ExecutarConsulta() {
         const tipo = document.getElementById("buscaTipo");
-        const col = tipo === 't' ? "fk_turno_s__turno_s__pk" : "nome";
-        controleBD.from("funcionario_completo")
-            .select("*")
-            .ilike(col, `%${busca}%`)
-            .then(r => {
-                if (!r.error) {
-                    PreencherEmails(r.data).then(f => {
-                        setFuncionarios(f);
-                    });
-                }
-                else
-                    console.log(r.error);
-            });
+        if (tipo.value === 't') {
+            controleBD.from("funcionario_completo")
+                .select("*")
+                .eq('fk_turno_s__turno_s__pk', LerTurno(busca.toLowerCase()).turno_s__pk)
+                .limit(1)
+                .then(r => {
+                    if (!r.error) {
+                        PreencherEmails(r.data).then(f => {
+                            setFuncionarios(f);
+                        });
+                    }
+                    else
+                        console.log(r.error);
+                });
+
+        } else {
+            controleBD.from("funcionario_completo")
+                .select("*")
+                .ilike("nome", `%${busca}%`)
+                .then(r => {
+                    if (!r.error) {
+                        PreencherEmails(r.data).then(f => {
+                            setFuncionarios(f);
+                        });
+                    }
+                    else
+                        console.log(r.error);
+                });
+        }
         setBuscaExecutada(true);
     }
 
@@ -79,7 +96,7 @@ function GerenciarFuncionarios() {
                     <h4>Consulta:</h4>
                     <div>
                         <label className="form-label mx-2" htmlFor="inBusca">Procurar funcionarios por: </label>
-                        <select name="buscaTipo" id="buscaTipo" onChange={(e) => console.log(e.target.value)}>
+                        <select name="buscaTipo" id="buscaTipo">
                             <option value="n">Nome</option>
                             <option value="t">Turno</option>
                         </select>

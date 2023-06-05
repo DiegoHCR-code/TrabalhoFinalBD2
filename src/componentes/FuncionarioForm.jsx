@@ -7,6 +7,7 @@ import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Container, Form, Button, Row, Col, Card } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { v4 as uuidv4 } from 'uuid';
+import GerenciarDependentes from "./GerenciarDependentes";
 
 const CDNURL = process.env.REACT_APP_SUPABASE_SERVER + "/storage/v1/object/public/imagens/";
 
@@ -54,7 +55,7 @@ function FuncionarioForm() {
 
         const { data, error } = await controleBD
             .storage.from('imagens')
-            .upload(state.user.id + "/" + uuidv4(), file)//id do usuario / id aleatorio
+            .upload(state.user.id + "/" + uuidv4(), file);//id do usuario / id aleatorio
         if (data) {
             getImages();
         } else {
@@ -65,7 +66,7 @@ function FuncionarioForm() {
     async function deleteImage(imagename) {
         const { error } = await controleBD
             .storage.from('imagens')
-            .remove([state.user.id + "/" + imagename])
+            .remove([state.user.id + "/" + imagename]);
         if (error) {
             alert(error);
         } else {
@@ -160,7 +161,7 @@ function FuncionarioForm() {
         if (error)
             console.log(error);
         else {
-            setMsg("Funcionário excluido com sucesso. Redirecionando...")
+            setMsg("Funcionário excluido com sucesso. Redirecionando...");
             setTimeout(() => navigate(state.user.propria ? '/' : -1), 2000);
         }
     }
@@ -181,7 +182,7 @@ function FuncionarioForm() {
                             </>
                             :
                             <>
-                                
+
                                 {images.length == 0 ?
                                     <>
                                         <h3>Insira sua foto abaixo</h3>
@@ -197,7 +198,7 @@ function FuncionarioForm() {
                                             {
                                                 images.map((image) => {
                                                     return (
-                                                        <Col  xs={1} md={3} key={CDNURL + state.user.id + "/" + image.name}>
+                                                        <Col xs={1} md={3} key={CDNURL + state.user.id + "/" + image.name}>
                                                             <Card >
                                                                 <Card.Img variant="top" src={CDNURL + state.user.id + "/" + image.name} />
                                                                 <Card.Body>
@@ -205,7 +206,7 @@ function FuncionarioForm() {
                                                                 </Card.Body>
                                                             </Card>
                                                         </Col>
-                                                    )
+                                                    );
                                                 }
                                                 )
                                             }
@@ -243,6 +244,7 @@ function FuncionarioForm() {
 
                 </div>
 
+                <GerenciarDependentes c={infoUsuario.numcarteirat} />
 
                 <div className="row m-4">
                     <h4>Contato</h4>
@@ -341,10 +343,6 @@ function FuncionarioForm() {
                                 value={infoUsuario.valetransporte || 0} onChange={(e) => infoUsuario.eGerente && !isNaN(e.target.value) ? setInfoUsuario(i => ({ ...i, valetransporte: e.target.value })) : ""} />
                         </div>
                     </div>
-                </div>
-
-                <div>
-                    <p>Dependentes: TODO- gerenciar</p>
                 </div>
 
                 <div className="m-auto">
