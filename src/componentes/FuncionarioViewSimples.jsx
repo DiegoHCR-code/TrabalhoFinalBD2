@@ -1,7 +1,5 @@
 import './FuncionarioViewSimples.css';
-import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { controleBD } from '../controleSupabase';
 
 function FuncionarioViewSimples({ fc, turnos }) {
     const navigate = useNavigate();
