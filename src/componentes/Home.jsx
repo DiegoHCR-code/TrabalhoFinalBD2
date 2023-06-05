@@ -26,32 +26,33 @@ function App() {
     (async () => {
       if (session) {
         const { data: usuario, error } = await controleBD.auth.getUser();
-        if (!error)
-        {
+        if (!error) {
           const { data: resultado, status } = await controleBD.from("funcionario").select("eGerente").eq("id", usuario.user.id);
-          setUser(u => { return { ...usuario.user, gerente: (status === 200 && resultado[0].eGerente) }});
-        } else console.log(error);        
+          setUser(u => { return { ...usuario.user, eGerente: (status === 200 && resultado[0].eGerente) }; });
+        } else
+          console.log(error);
       }
     })();
   }, [session]);
 
   return (
     <>
-      <header>
-        <button onClick={() => navigate('/editarconta', {state: { user: {...user, propria: true } }})}>minha conta</button>
-        <button onClick={async () => await controleBD.auth.signOut()}>Sair</button>
-      </header>
       <h1>Restaurante</h1>
       {(session && user) ?
-        <div className='m-4 p-4 bg-light'>
-          {user.gerente ? <PainelGerente /> : "mostrar controle do funcionario"}
-        </div>
+        <main>
+          <header className='bg-body-secondary p-2 d-flex align-items-center'>
+            <p className='my-2 mx-4'>Usuario logado: {user.email}</p>
+            <button className='btn btn-info mx-2' onClick={() => navigate('/editfunc', { state: { user: { ...user, propria: true } } })}>minha conta</button>
+            <button className='btn btn-warning mx-2' onClick={async () => await controleBD.auth.signOut()}>Sair</button>
+          </header>
+          <div className='m-4 p-4 bg-light'>
+            {user.eGerente ? <PainelGerente /> : "mostrar controle do funcionario"}
+          </div >
+        </main>
         :
         <Auth />
       }
-      <div>
-      <button onClick={() => navigate('/FotoUsuario', {state: { user: {...user, propria: true } }})}>Foto Usuario</button>
-      <a href="CriarFoto">Criar Fotos</a></div>
+  
     </>
   );
 }

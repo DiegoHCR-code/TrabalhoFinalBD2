@@ -17,6 +17,15 @@ const templateProduto = {
     precoproduto: "",
   };
 
+const templateFornecedor = {
+    nome: "",
+    telefone: "",
+    endereco: "",
+    cnpj: "",
+    id: "",
+};
+
 
 export { templateFuncionario };
 export { templateProduto };
+export { templateFornecedor };
