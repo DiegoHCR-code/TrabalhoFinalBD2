@@ -6,9 +6,7 @@ export default async function AuthLoader() {
     if (!sessionData.session)
         return { session: null, user: null };
     else {
-        console.log(sessionData);
         const { data: resultado, status } = await controleBD.from("funcionario").select("eGerente").eq("id", sessionData.session.user.id);
-
         return {
             user: { ...sessionData.session.user, eGerente: (status === 200 && resultado[0].eGerente) },
             session: { ...sessionData.session }
