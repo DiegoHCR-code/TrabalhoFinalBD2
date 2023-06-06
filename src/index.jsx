@@ -19,6 +19,8 @@ import AuthLoader from './componentes/AuthLoader';
 import Gerarfolha from './componentes/proceduregerarfolha';
 import Gerarcusto from './componentes/procedurecustomensal';
 import Folhapagamento from './componentes/Folhapagamento';
+import CustoMensal from './componentes/CustoMensal';
+
 
 import GerenciarPratos from './componentes/GerenciarPratos';
 
@@ -81,6 +83,9 @@ const router = createBrowserRouter([
       },{
         path: "/gerprato",
         element: <GerenciarPratos />
+      },{
+        path: "/CustoMensal",
+        element: <CustoMensal />
       }
 
     ]

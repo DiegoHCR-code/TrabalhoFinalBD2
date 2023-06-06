@@ -21,7 +21,7 @@ function procedurecustomensal(){
             }
       }
 
-      return(<><button onClick={chamarProcedure}>Calculo custo mensal</button>
+      return(<><button  className="form-control" onClick={chamarProcedure}>Calculo custo mensal</button>
       </>);
 }
 
