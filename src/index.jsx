@@ -15,9 +15,13 @@ import GerenciarFuncionarios from './componentes/GerenciarFuncionarios';
 import CriarFornecedor from './componentes/CriarFonecedor';
 import HeaderGeral from './componentes/HeaderGeral';
 import AuthLoader from './componentes/AuthLoader';
+
 import Gerarfolha from './componentes/proceduregerarfolha';
 import Gerarcusto from './componentes/procedurecustomensal';
 import Folhapagamento from './componentes/Folhapagamento';
+
+import GerenciarPratos from './componentes/GerenciarPratos';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -63,6 +67,7 @@ const router = createBrowserRouter([
         element: <CriarFornecedor />
       },
       {
+
         path: "/proceduregerarfolha",
         element: <Gerarfolha />
       },
@@ -73,13 +78,15 @@ const router = createBrowserRouter([
       {
         path: "/Folhapagamento",
         element: <Folhapagamento />
+      },{
+        path: "/gerprato",
+        element: <GerenciarPratos />
       }
+
     ]
   }
 ]);
 
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <RouterProvider router={router} />
 );
