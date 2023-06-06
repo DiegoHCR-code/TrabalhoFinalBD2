@@ -8,7 +8,7 @@ function PainelCusto(u) {
 
   return (
     <>
-      <button className='btn btn-info' onClick={() => navigate('/CustoMensal', { state: { gerente: true } })}>Gerenciar Custo Mensal</button>
+      <button className='btn btn-info bc' onClick={() => navigate('/CustoMensal', { state: { gerente: true } })}>Veja +</button>
     </>
   );
 }

@@ -8,7 +8,7 @@ function PainelFolha(u) {
 
   return (
     <>
-      <button className='btn btn-info' onClick={() => navigate('/Folhapagamento', { state: { gerente: true } })}>Gerenciar folhaPagamento</button>
+      <button className='btn btn-info bc' onClick={() => navigate('/Folhapagamento', { state: { gerente: true } })}>Veja +</button>
     </>
   );
 }
