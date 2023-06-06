@@ -3,6 +3,8 @@ import './Home.css';
 import Auth from './Auth';
 import PainelGerente from './PainelGerente';
 import { useLoaderData } from "react-router-dom";
+import PainelFolha from './PainelFolha';
+
 import PainelFuncionario from './PainelFuncionario';
 
 function App() {
