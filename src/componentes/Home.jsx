@@ -3,7 +3,7 @@ import './Home.css';
 import Auth from './Auth';
 import PainelGerente from './PainelGerente';
 import { useLoaderData } from "react-router-dom";
-import FolhaPagamento from './PainelFolha';
+import PainelFolha from './PainelFolha';
 
 import PainelFuncionario from './PainelFuncionario';
 
@@ -15,9 +15,6 @@ function App() {
       <h1>Restaurante</h1>
       {(session && user) ?
         <div className='m-4 p-4 bg-light'>
-
-          {user.eGerente ? <PainelGerente /> : "mostrar controle do funcionario"}
-          {user.eGerente ? <FolhaPagamento /> : "mostrar folha pagamento"}
           {user.eGerente ? <PainelGerente /> : ""}
           <PainelFuncionario />
         </div >

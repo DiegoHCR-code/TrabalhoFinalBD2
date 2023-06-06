@@ -8,7 +8,6 @@ function PainelFolha(u) {
 
   return (
     <>
-      <h4>Painel do gerente</h4>
       <button className='btn btn-info' onClick={() => navigate('/Folhapagamento', { state: { gerente: true } })}>Gerenciar folhaPagamento</button>
     </>
   );

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { createClient } from '@supabase/supabase-js';
 import { controleBD } from '../controleSupabase';
 
