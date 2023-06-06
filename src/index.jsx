@@ -15,6 +15,7 @@ import GerenciarFuncionarios from './componentes/GerenciarFuncionarios';
 import CriarFornecedor from './componentes/CriarFonecedor';
 import HeaderGeral from './componentes/HeaderGeral';
 import AuthLoader from './componentes/AuthLoader';
+import GerenciarPratos from './componentes/GerenciarPratos';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -58,13 +59,16 @@ const router = createBrowserRouter([
       {
         path: "/criarfornecedor",
         element: <CriarFornecedor />
+      },
+      {
+        path: "/gerprato",
+        element: <GerenciarPratos />
       }
+
     ]
   }
 ]);
 
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <RouterProvider router={router} />
 );
