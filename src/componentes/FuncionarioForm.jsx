@@ -164,13 +164,13 @@ function FuncionarioForm() {
     }
 
     return (
-        <div>
-            <h2>Editando as informações do {state.user.propria ? "seu cadastro" : `cadastro de ${infoUsuario.nome}`}: </h2>
-            <form id="form-editar" className="d-flex flex-column align-items-start w-75 p-2 mx-auto bg-light rounded border border-4" onSubmit={(e) => { e.preventDefault(); AtualizarBanco(); }}>
+        <div className="container-xl">
+            <h4 className="m-4 fw-bold">Editando as informações do {state.user.propria ? "seu cadastro" : `cadastro de: ${infoUsuario.nome}`} </h4>
+            <form id="form-editar" className="d-flex flex-column align-items-start p-2 mx-auto bg-light rounded border border-4" onSubmit={(e) => e.preventDefault()}>
 
-                <div className="row m-4">
-                    <h4>Informações basicas</h4>
                     <FotoUsuario c={state.user} />
+                <div className="row m-2">
+                    <h4>Informações basicas</h4>
 
                     <div className="col-auto">
                         <label htmlFor="edt-nome" className="form-label">Nome completo</label>
@@ -198,7 +198,7 @@ function FuncionarioForm() {
 
                 </div>
 
-                <div className="row m-4">
+                <div className="row m-2">
                     <h4>Contato</h4>
 
                     <div className="col-auto">
@@ -221,7 +221,7 @@ function FuncionarioForm() {
 
                 </div>
 
-                <div className="row m-4">
+                <div className="row mx-auto my-2 w-75">
                     <GerenciarDependentes fkFuncionario={state.user.numcarteirat} />
                 </div>
 
@@ -302,7 +302,7 @@ function FuncionarioForm() {
                 </div>
 
                 <div className="m-auto">
-                    <button className="btn btn-primary mx-2" type='submit'>Salvar</button>
+                    <button className="btn btn-primary mx-2" type='button' onClick={() => AtualizarBanco()}>Salvar</button>
                     <button className="btn btn-dark mx-2" onClick={() => navigate(-1)}>Cancelar</button>
                     <button type="button" className="btn btn-warning mx-5" onClick={() => setConfDel(!confDel)}>Excluir</button>
                 </div>
@@ -315,11 +315,10 @@ function FuncionarioForm() {
                     </div> : ""}
             </form>
             {msg !== undefined ?
-                <div className="position-absolute top-50 start-50 bg-success shadow border border-2 p-4">
+                <div className="position-fixed top-50 start-50 translate-middle bg-success shadow border border-2 p-4">
                     <h4 className="text-white">{msg}</h4>
-                </div> : ""
-            }
-        </div>
+                </div> : ""}
+        </div >
     );
 }
 
