@@ -7,7 +7,7 @@ function HeaderGeral() {
 
     return (
         <>{user && session ?
-            <header className='bg-body-secondary p-2 d-flex align-items-center justify-content-between'>
+            <header className='bg-secondary-subtle p-2 d-flex align-items-center justify-content-between'>
                 <button className='btn btn-success mx-2 btn-lg' onClick={() => navigate('/',)}>Home</button>
                 <div className="d-flex">
                     <p className='my-2 mx-4'>Usuario logado: {user.email}</p>

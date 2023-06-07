@@ -37,6 +37,7 @@ function GerenciarFuncionarios() {
     }
 
     function GetTodosFuncionarios() {
+        setBuscaExecutada(true);
         controleBD.from("funcionario_completo").select("*").then(r => {
             if (!r.error) {
                 PreencherEmails(r.data).then(f => {
@@ -88,9 +89,9 @@ function GerenciarFuncionarios() {
 
     return (
         <>
-            <div className="w-75 m-auto">
+            <div className="w-75 p-4 mx-auto my-4 bg-secondary-subtle rounded">
                 <h2>Gerenciar funcionarios:</h2>
-                <div className="container-sm m-2 p-2 bg-info-subtle rounded">
+                <div className="container-sm mx-auto my-4 p-2 bg-light rounded">
                     <h4>Consulta:</h4>
                     <div>
                         <label className="form-label mx-2" htmlFor="inBusca">Procurar funcionarios por: </label>
@@ -107,23 +108,25 @@ function GerenciarFuncionarios() {
                 </div>
                 {buscaExecutada ?
                     (funcionarios.some(_ => true)
-                        ? <h4>Resultado: {funcionarios.length} encontrados</h4>
+                        ? <div>
+                            <h4>Resultado: {funcionarios.length} encontrados</h4>
+                            <table className="table table-light m-2">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Contato</th>
+                                        <th>Turno</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {funcionarios.map((f, i) => {
+                                        return <FuncionarioViewSimples key={i} fc={f} turnos={turnos} />;
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
                         : <h4 className="p-2 m-auto w-50 rounded bg-warning text-center">Nenhum funcionario encontrado</h4>) : ""}
-                <table className="table table-light m-2">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Contato</th>
-                            <th>Turno</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {funcionarios.map((f, i) => {
-                            return <FuncionarioViewSimples key={i} fc={f} turnos={turnos} />;
-                        })}
-                    </tbody>
-                </table>
                 <button className="btn btn-primary btn-lg" onClick={() => navigate(-1)}>Voltar</button>
             </div>
         </>

@@ -260,7 +260,7 @@ function FuncionarioForm() {
                 </div>
 
                 {confDel ?
-                    <div className='bg-danger text-white p-2 d-flex'>
+                    <div className='bg-danger mx-auto my-4 text-white p-2 d-flex'>
                         <p>Tem certeza que deseja excluir este funcionário e apagar todas as suas informações do banco?</p>
                         <button type="button" className='btn btn-warning mx-2 btn-sm' onClick={() => DeleteUsuario()}>Excluir</button>
                         <button type="button" className='btn btn-light mx-2 btn-sm' onClick={() => setConfDel(false)}>Cancelar</button>

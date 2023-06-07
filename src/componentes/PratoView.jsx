@@ -137,7 +137,7 @@ function PratoView({ prato, produtos, removerCallback, atualizarLista }) {
                 </tr>
                 : ""}
             <tr>
-                <td colSpan={10} className="bg-dark-subtle py-3"></td>
+                <td colSpan={10} className="bg-light py-2 "></td>
             </tr>
         </>
     );

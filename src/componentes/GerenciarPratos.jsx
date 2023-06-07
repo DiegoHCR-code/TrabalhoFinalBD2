@@ -63,10 +63,10 @@ function GerenciarPratos() {
     }
 
     return (
-        <div className="container-xl px-4 py-2 my-4 bg-dark-subtle rounded">
+        <div className="container-xl px-4 py-2 my-4 bg-light rounded">
             <h4>Pratos: {pratos.length}</h4>
             <div className="table-responsive">
-                <table className="table table-light">
+                <table className="table">
                     <thead>
                         <tr>
                             <th>Numero</th>
