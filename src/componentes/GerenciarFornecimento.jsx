@@ -32,9 +32,10 @@ function GerenciarFornecimento() {
                             <th>Telefone</th>
                             <th>Produto</th>
                             <th>Preço do produto</th>
+                            <th></th>
                         </tr>
                     </thead>
-
+                    {/* sort((a, b) => a.nome_produto <= b.nome_produto). */}
                     <tbody>
                         {forne.some(_ => true) ? forne.map((f, i) => {
                             return (
@@ -43,6 +44,7 @@ function GerenciarFornecimento() {
                                     <td>{f.telefone}</td>
                                     <td>{f.nome_produto}</td>
                                     <td>{f.precoproduto}</td>
+                                    <td></td>
                                 </tr>);
                         }) : ""}
                     </tbody>

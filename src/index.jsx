@@ -21,6 +21,7 @@ import Gerarcusto from './componentes/procedurecustomensal';
 import Folhapagamento from './componentes/Folhapagamento';
 import GerenciarPratos from './componentes/GerenciarPratos';
 import Erro from './componentes/Erro';
+import GerenciarProdutos from './componentes/GerenciarProdutos';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -56,8 +57,8 @@ const router = createBrowserRouter([
         element: <GerenciarFuncionarios />
       },
       {
-        path: "/criarproduto",
-        element: <CriarProduto />
+        path: "/gerprod",
+        element: <GerenciarProdutos />
       },
       {
         path: "/fotousuario",

@@ -34,7 +34,7 @@ function PainelFuncionario() {
           <div className="card-body">
             <h4 className="card-title">Produtos</h4>
             <p className="card-text">Gerenciar produtos</p>
-            <button className='btn m-2 btn-info bc' onClick={() => navigate('/')}>Veja +</button>
+            <button className='btn m-2 btn-info bc' onClick={() => navigate('/gerprod')}>Veja +</button>
           </div>
         </div>
         <div className="card" >
