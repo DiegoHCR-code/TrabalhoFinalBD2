@@ -55,7 +55,7 @@ function FolhaPagamento() {
         <>{
             <div className="w-75 m-auto">
                 <div className="d">
-                <h2>Gerar folha pagamento:</h2>
+                <h2>Custo mensal</h2>
                 <div className="container-sm m-2 p-2 bg-info-subtle rounded">
                     <PainelFolha fkFuncionario={state.user} />
                 </div>
@@ -67,7 +67,7 @@ function FolhaPagamento() {
                 <div className="pdf">
                         <br />
 
-                        <h3>Folha pagamento:</h3>
+                        <h3>Custo Mensal</h3>
                         <hr />
                         <br />
                 <table className="table table-white m-2">
