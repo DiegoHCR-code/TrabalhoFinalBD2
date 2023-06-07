@@ -13,9 +13,7 @@ function GerenciarFuncionarios() {
     const [buscaExecutada, setBuscaExecutada] = useState(false);
 
     useEffect(() => {
-        if (!state.gerente) {
-            navigate('/');
-        }
+
 
         controleBD.from("turnos").select("*").then(r => {
             if (!r.error) {
