@@ -82,11 +82,6 @@ const router = createBrowserRouter([
         path: "/gerprato",
         element: <GerenciarPratos />
       },
-      {
-        path: "/gerfornecimento",
-        element: <GerenciarFornecimento />
-      },
-
     ]
   }
 ]);
