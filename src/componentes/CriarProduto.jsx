@@ -15,13 +15,11 @@ function CriarProduto({ n, atualizar }) {
     const infor = new FormData(formProd);
 
     let infoLidaP = infoProds;
-    console.log(infoLidaP, "teste");
     for (const info of infor) {
       infoLidaP[info[0].slice()] = info[1];
     }
     setInfoProds(infoLidaP);
     ExecutarCadastroProd();
-    console.log("funfou");
   }
 
   async function ExecutarCadastroProd() {
@@ -31,16 +29,16 @@ function CriarProduto({ n, atualizar }) {
         nome: infoProds.nome,
         precoproduto: infoProds.precoproduto,
       }]);
-      if (error)
-        console.log(error);
-      else
-        atualizar();
+    if (error)
+      console.log(error);
+    else
+      atualizar();
   }
 
   return (
     <div className='bg-primary-subtle my-2 rounded border border-2 border-dark d-flex align-items-center justify-content-center flex-column text-lg-center'>
       <p className="mt-5">Preencha para criar um novo Produto: </p>
-      <form onSubmit={(e) => { { e.preventDefault(); Processar(e.target); } }}>
+      <form onSubmit={(e) => { e.preventDefault(); Processar(e.target); }}>
         <fieldset>
           <legend className="fw-bold mb-3">Informações do Produto</legend>
 

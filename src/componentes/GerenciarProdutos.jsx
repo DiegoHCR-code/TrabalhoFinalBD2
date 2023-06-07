@@ -78,10 +78,10 @@ function GerenciarProdutos() {
                                             :
                                             (p.nome)}
                                         </td>
-                                        <td>R$ {edit === p.codigo ?
+                                        <td>{edit === p.codigo ?
                                             <input type="number" min={0} step="0.01" className="form-control" name={"editp" + p.codigo} id={"editp" + p.codigo} defaultValue={p.precoproduto} />
                                             :
-                                            (p.precoproduto)}
+                                            ("R$ " + p.precoproduto)}
                                         </td>
                                         <td>
                                             <div>
