@@ -1,66 +1,55 @@
 import { useEffect, useState } from "react";
 import { controleBD } from '../controleSupabase';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function GerenciarFornecimento(){
+function GerenciarFornecimento() {
+
     const navigate = useNavigate();
-    let { state } = useLocation();
+
     const [forne, setForne] = useState([]);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState(undefined);
     const [buscaExecutada, setBuscaExecutada] = useState(false);
 
 
     useEffect(() => {
-        const fetchTodos = async () => {
-            try{
-                setBuscaExecutada(true);
-
-                const { data, error } = await controleBD.from('viewfornecedoresprodutos').select('*');
-
-                if (error){
-                    throw error;
-                }
-
-                setForne(data);
-                setBuscaExecutada(false);
-            }catch(error){
-                setError(error.message);
-                setBuscaExecutada(false);
+        (async () => {
+            const { data, error } = await controleBD.from('viewfornecedoresprodutos').select('*');
+            if (error) {
+                console.log(error);
             }
-        };
-
-        fetchTodos();
-    },[]);
+            setForne(data);
+        })();
+    }, []);
 
     return (
-        <>{
-            <div className="w-75 m-auto">
+        <>
+            <div className="w-75 m-auto bg-light rounded p-4">
                 <h2>Lista Fornecedores produtos</h2>
-                <table>
+                <table className="table table-light">
                     <thead>
                         <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
+                            <th>Nome</th>
+                            <th>Telefone</th>
+                            <th>Produto</th>
+                            <th>Preço do produto</th>
                         </tr>
                     </thead>
 
-                    <thead>
-                        {forne.map(f => {
-                            <tr key={f.nome_fornecedor}>
-                            <th>{f.nome_fornecedor}</th>
-                            <th>{f.telefone}</th>
-                            <th>{f.nome_produto}</th>
-                            <th>{f.precoproduto}</th>
-                            </tr>
-                        })}
-                    </thead>
+                    <tbody>
+                        {forne.some(_ => true) ? forne.map((f, i) => {
+                            return (
+                                <tr key={i}>
+                                    <td>{f.nome_fornecedor}</td>
+                                    <td>{f.telefone}</td>
+                                    <td>{f.nome_produto}</td>
+                                    <td>{f.precoproduto}</td>
+                                </tr>);
+                        }) : ""}
+                    </tbody>
                 </table>
                 <button className="btn btn-primary btn-lg" onClick={() => navigate(-1)}>Voltar</button>
             </div>
-        }</>
+        </>
     );
 }
 

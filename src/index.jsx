@@ -20,6 +20,7 @@ import Gerarfolha from './componentes/proceduregerarfolha';
 import Gerarcusto from './componentes/procedurecustomensal';
 import Folhapagamento from './componentes/Folhapagamento';
 import GerenciarPratos from './componentes/GerenciarPratos';
+import Erro from './componentes/Erro';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
   {
     element: <Layout />,
     loader: AuthLoader,
+    errorElement: <Erro />,
     children: [
       {
         path: "/",
@@ -81,6 +83,10 @@ const router = createBrowserRouter([
       {
         path: "/gerprato",
         element: <GerenciarPratos />
+      },
+      {
+        path: "/gerforn",
+        element: <GerenciarFornecimento />
       },
     ]
   }
