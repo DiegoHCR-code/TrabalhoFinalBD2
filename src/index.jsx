@@ -15,13 +15,10 @@ import GerenciarFuncionarios from './componentes/GerenciarFuncionarios';
 import CriarFornecedor from './componentes/CriarFonecedor';
 import HeaderGeral from './componentes/HeaderGeral';
 import AuthLoader from './componentes/AuthLoader';
-
+import GerenciarFornecimento from './componentes/GerenciarFornecimento';
 import Gerarfolha from './componentes/proceduregerarfolha';
 import Gerarcusto from './componentes/procedurecustomensal';
 import Folhapagamento from './componentes/Folhapagamento';
-import CustoMensal from './componentes/CustoMensal';
-
-
 import GerenciarPratos from './componentes/GerenciarPratos';
 
 
@@ -80,14 +77,11 @@ const router = createBrowserRouter([
       {
         path: "/Folhapagamento",
         element: <Folhapagamento />
-      },{
+      },
+      {
         path: "/gerprato",
         element: <GerenciarPratos />
-      },{
-        path: "/CustoMensal",
-        element: <CustoMensal />
-      }
-
+      },
     ]
   }
 ]);
