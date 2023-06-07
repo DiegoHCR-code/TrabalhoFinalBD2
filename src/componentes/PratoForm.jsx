@@ -86,7 +86,7 @@ function PratoForm({ produtos, n, atualizar }) {
                 </div>
                 <label htmlFor="prodsel" className="form-label">Escolha os produtos do prato: </label>
                 <div className="d-flex w-50">
-                    <select name="prodsel" id="prodsel" className="form-control">
+                    <select name="prodsel" id="prodsel" className="form-select">
                         {produtos.map((p, i) => {
                             if (prodSel.some(pl => pl.codigo === p.codigo))
                                 return "";

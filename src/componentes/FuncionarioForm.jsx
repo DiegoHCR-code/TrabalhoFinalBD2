@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { controleBD } from '../controleSupabase';
 import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
@@ -6,6 +6,7 @@ import moment from "moment";
 
 import GerenciarDependentes from "./GerenciarDependentes";
 import FotoUsuario from "./FotoUsuario";
+import GerenciarBeneficios from "./GerenciarBeneficios";
 
 function FuncionarioForm() {
 
@@ -107,11 +108,11 @@ function FuncionarioForm() {
     }
 
     return (
-        <div className="container-xl">
+        <div className="container-xl p-2 mx-auto bg-light rounded border border-4">
             <h4 className="m-4 fw-bold">Editando as informações do {state.user.propria ? "seu cadastro" : `cadastro de: ${infoUsuario.nome}`} </h4>
-            <form id="form-editar" className="d-flex flex-column align-items-start p-2 mx-auto bg-light rounded border border-4" onSubmit={(e) => e.preventDefault()}>
+            <form id="form-editar" className="d-flex flex-column align-items-start " onSubmit={(e) => e.preventDefault()}>
 
-                    <FotoUsuario c={state.user} />
+                <FotoUsuario c={state.user} />
                 <div className="row m-2">
                     <h4>Informações basicas</h4>
 
@@ -164,9 +165,17 @@ function FuncionarioForm() {
 
                 </div>
 
-                <div className="row mx-auto my-2 w-75">
-                    <GerenciarDependentes fkFuncionario={state.user.numcarteirat} />
-                </div>
+                {infoUsuario.numcarteirat ?
+                    <div className="row mx-auto my-2 w-75">
+                        <GerenciarDependentes fkFuncionario={infoUsuario.numcarteirat} />
+                    </div>
+                    : ""}
+
+                {infoUsuario.numcarteirat ?
+                    <div className="row mx-auto my-2 w-75">
+                        <GerenciarBeneficios usuario={infoUsuario} />
+                    </div>
+                    : ""}
 
                 <div className="row m-4 bg-warning-subtle rounded p-4 border border-warning">
                     <h4>Informações restritas</h4>
@@ -210,19 +219,19 @@ function FuncionarioForm() {
                         <div className="d-flex">
                             <div className="form-check m-2">
                                 <input className="form-check-input" type="radio" name="turno" id="manha"
-                                    disabled={!infoUsuario.eGerente} checked={infoUsuario.fk_turno_s__turno_s__pk === 1}
+                                    disabled={!infoUsuario.eGerente} defaultChecked={infoUsuario.fk_turno_s__turno_s__pk === 1}
                                     onClick={(_) => setInfoUsuario(i => ({ ...i, fk_turno_s__turno_s__pk: 1 }))} />
                                 <label className="form-check-label" htmlFor="manhã">Manha</label>
                             </div>
                             <div className="form-check m-2">
                                 <input className="form-check-input" type="radio" name="turno" id="tarde"
-                                    disabled={!infoUsuario.eGerente} checked={infoUsuario.fk_turno_s__turno_s__pk === 2}
+                                    disabled={!infoUsuario.eGerente} defaultChecked={infoUsuario.fk_turno_s__turno_s__pk === 2}
                                     onClick={(_) => setInfoUsuario(i => ({ ...i, fk_turno_s__turno_s__pk: 2 }))} />
                                 <label className="form-check-label" htmlFor="tarde">Tarde</label>
                             </div>
                             <div className="form-check m-2">
                                 <input className="form-check-input" type="radio" name="turno" id="noite"
-                                    disabled={!infoUsuario.eGerente} checked={infoUsuario.fk_turno_s__turno_s__pk === 3}
+                                    disabled={!infoUsuario.eGerente} defaultChecked={infoUsuario.fk_turno_s__turno_s__pk === 3}
                                     onClick={(_) => setInfoUsuario(i => ({ ...i, fk_turno_s__turno_s__pk: 3 }))} />
                                 <label className="form-check-label" htmlFor="noite">Noite</label>
                             </div>

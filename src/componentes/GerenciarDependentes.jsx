@@ -62,18 +62,17 @@ function GerenciarDependentes({ fkFuncionario }) {
         <div className="px-4 py-2 bg-info-subtle rounded">
             <h4>Dependentes: {dep.length}</h4>
             <div className="table-responsive">
-                <table className="table table-light">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Telefone</th>
-                            <th>Idade</th>
-                            <th>Parentesco</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    {dep.some(_ => true)
-                        ?
+                {dep.some(_ => true) ?
+                    <table className="table table-light">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Telefone</th>
+                                <th>Idade</th>
+                                <th>Parentesco</th>
+                                <th></th>
+                            </tr>
+                        </thead>
                         <tbody>
                             {dep.map((dp, i) =>
                                 <DependenteView
@@ -83,8 +82,8 @@ function GerenciarDependentes({ fkFuncionario }) {
                                     removerCallback={() => RemoverDependente(dp.fk_funcionario_numcarteirat, dp.dtnascimento)}
                                 />)}
                         </tbody>
-                        : ""}
-                </table>
+                    </table>
+                    : ""}
             </div>
             <div>
                 <button type="button" onClick={() => setMostraCadastro(!mostraCadastro)} className="btn btn-info">Adicionar Dependente</button>
