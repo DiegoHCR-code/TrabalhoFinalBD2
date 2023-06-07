@@ -103,8 +103,8 @@ function FotoUsuario({c}) {
                     :
                     <>
                         { }
-                        <h3>Para cadastrar outra foto é preciso deletar a atual</h3>
-                        <Row justifyContent="center">
+                        <div justifyContent="center">
+                        <Row >
                             {
                                 images.map((image) => {
                                     return (
@@ -119,8 +119,10 @@ function FotoUsuario({c}) {
                                     );
                                 }
                                 )
+                                
                             }
                         </Row>
+                        </div>
                     </>
 
                 }

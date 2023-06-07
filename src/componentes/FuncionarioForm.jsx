@@ -108,7 +108,7 @@ function FuncionarioForm() {
     }
 
     return (
-        <div className="container-xl p-2 mx-auto bg-light rounded border border-4">
+        <div className="container p-2 mx-auto bg-light rounded border border-4">
             <h4 className="m-4 fw-bold">Editando as informações do {state.user.propria ? "seu cadastro" : `cadastro de: ${infoUsuario.nome}`} </h4>
             <form id="form-editar" className="d-flex flex-column align-items-start " onSubmit={(e) => e.preventDefault()}>
 

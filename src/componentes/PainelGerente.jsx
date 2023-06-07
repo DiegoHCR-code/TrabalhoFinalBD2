@@ -16,7 +16,11 @@ function PainelGerente() {
   return (
 
     <>
+      <div className="centered">
+      <div  className="home">
       <h4>Painel do gerente</h4>
+      </div>
+      </div>
       <div className="c">
         <div className="card" >
           <img src={gerenciarfunc} className="card-img-top img" alt="Imagem do Card" />

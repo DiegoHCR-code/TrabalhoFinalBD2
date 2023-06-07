@@ -23,6 +23,8 @@ import GerenciarPratos from './componentes/GerenciarPratos';
 import Erro from './componentes/Erro';
 import GerenciarProdutos from './componentes/GerenciarProdutos';
 
+import CustoMensal from './componentes/CustoMensal';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -76,6 +78,10 @@ const router = createBrowserRouter([
       {
         path: "/procedurecustomensal",
         element: <Gerarcusto/>
+      },
+      {
+        path: "/CustoMensal",
+        element: <CustoMensal/>
       },
       {
         path: "/Folhapagamento",
