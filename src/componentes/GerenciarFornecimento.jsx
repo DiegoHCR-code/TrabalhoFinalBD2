@@ -35,7 +35,6 @@ function GerenciarFornecimento() {
                             <th></th>
                         </tr>
                     </thead>
-                    {/* sort((a, b) => a.nome_produto <= b.nome_produto). */}
                     <tbody>
                         {forne.some(_ => true) ? forne.map((f, i) => {
                             return (

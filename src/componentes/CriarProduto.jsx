@@ -8,7 +8,7 @@ import { templateProduto } from "./templates";
 //    precoProduto NUMERIC
 //);
 
-function CriarProduto() {
+function CriarProduto({ n, atualizar }) {
   const [infoProds, setInfoProds] = useState(templateProduto);
 
   function Processar(formProd) {
@@ -25,18 +25,22 @@ function CriarProduto() {
   }
 
   async function ExecutarCadastroProd() {
-        const { error} = await controleBD.from("produto").insert([
-            {
-                nome: infoProds.nome,
-                precoproduto: infoProds.precoproduto.replace(/\D/g, ''),
-            }]);
-      console.log("cadastrou");
+    const { error } = await controleBD.from("produto").insert([
+      {
+        codigo: n + 1,
+        nome: infoProds.nome,
+        precoproduto: infoProds.precoproduto,
+      }]);
+      if (error)
+        console.log(error);
+      else
+        atualizar();
   }
 
   return (
     <div className='bg-primary-subtle my-2 rounded border border-2 border-dark d-flex align-items-center justify-content-center flex-column text-lg-center'>
       <p className="mt-5">Preencha para criar um novo Produto: </p>
-      <form onSubmit={(e) => {{e.preventDefault(); Processar(e.target);}}}>
+      <form onSubmit={(e) => { { e.preventDefault(); Processar(e.target); } }}>
         <fieldset>
           <legend className="fw-bold mb-3">Informações do Produto</legend>
 
@@ -44,11 +48,11 @@ function CriarProduto() {
           <input type="text" name="nome" id="nome" className="me-5" required />
 
           <label htmlFor="precoproduto" >Preço:</label>
-          <input type="number" name="precoproduto" id="precoproduto" required />
+          <input type="number" step="0.01" name="precoproduto" id="precoproduto" required />
 
         </fieldset>
-        <button type="submit" className="me-5 mb-5">Cadastrar</button>
-        <button type="reset">Limpar Campos</button>
+        <button type="submit" className="m-4 btn btn-success">Cadastrar</button>
+        <button type="reset" className="m-4 btn btn-warning">Limpar Campos</button>
       </form>
     </div>
   );

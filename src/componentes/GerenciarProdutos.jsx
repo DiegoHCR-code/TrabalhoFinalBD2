@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import { controleBD } from "../controleSupabase";
 import ProdutoView from "./ProdutoView";
+import CriarProduto from './CriarProduto';
 
 function GerenciarProdutos() {
 
     const [listaProdutos, setListaProdutos] = useState([]);
     const [edit, setEdit] = useState(-1);
+    const [cadastro, setCadastro] = useState(false);
 
     useEffect(() => {
         LerProdutos();
     }, []);
 
     async function LerProdutos() {
+        setCadastro(false);
         if (listaProdutos !== [])
             setListaProdutos([]);
         controleBD.from("produto").select("*").then(({ data: lista }) => {
@@ -52,7 +55,7 @@ function GerenciarProdutos() {
     }
 
     return (
-        <div className="container-xl p-4 bg-light rounded">
+        <div className="container-xl p-4 bg-light rounded mx-auto my-4">
             <h4>Produtos: {listaProdutos.length}</h4>
             <div className="table-responsive">
                 <table className="table">
@@ -71,16 +74,12 @@ function GerenciarProdutos() {
                                     <tr className="produto">
                                         <td>{p.codigo}</td>
                                         <td>{edit === p.codigo ?
-                                            <div>
-                                                <input type="text" className="form-control" name={"editn" + p.codigo} id={"editn" + p.codigo} defaultValue={p.nome} />
-                                            </div>
+                                            <input type="text" className="form-control" name={"editn" + p.codigo} id={"editn" + p.codigo} defaultValue={p.nome} />
                                             :
                                             (p.nome)}
                                         </td>
-                                        <td>{edit === p.codigo ?
-                                            <div>
-                                                <input type="number" min={0} step="0.01" className="form-control" name={"editp" + p.codigo} id={"editp" + p.codigo} defaultValue={p.precoproduto} />
-                                            </div>
+                                        <td>R$ {edit === p.codigo ?
+                                            <input type="number" min={0} step="0.01" className="form-control" name={"editp" + p.codigo} id={"editp" + p.codigo} defaultValue={p.precoproduto} />
                                             :
                                             (p.precoproduto)}
                                         </td>
@@ -89,7 +88,7 @@ function GerenciarProdutos() {
                                                 {edit === p.codigo ? <button type="button" className="btn btn-success btn-sm mx-2" onClick={() => ConfirmarEdicao(p.codigo)}>OK!</button>
                                                     : <button type="button" onClick={() => setEdit(p.codigo)} className="btn btn-warning btn-sm mx-2">Editar</button>}
 
-                                                <button type="button" onClick={() => RemoverProduto(p.codigo)} className="btn btn-danger btn-sm">Remover</button>
+                                                {/* <button type="button" onClick={() => RemoverProduto(p.codigo)} className="btn btn-danger btn-sm">Remover</button> */}
                                             </div>
                                         </td>
                                     </tr>
@@ -98,6 +97,12 @@ function GerenciarProdutos() {
                     </tbody>
                 </table>
             </div>
+            <button onClick={() => setCadastro(!cadastro)} className="btn btn-primary"> Cadastrar um Produto</button>
+            {cadastro ?
+                <div>
+                    <CriarProduto n={listaProdutos.length} atualizar={() => LerProdutos()} />
+                </div>
+                : ""}
         </div>
     );
 }

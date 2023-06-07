@@ -71,7 +71,6 @@ const router = createBrowserRouter([
         element: <CriarFornecedor />
       },
       {
-
         path: "/proceduregerarfolha",
         element: <Gerarfolha />
       },
