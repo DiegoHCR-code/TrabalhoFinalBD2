@@ -12,7 +12,11 @@ function App() {
 
   return (
     <main className='container-xl rounded mx-auto my-4 bg-light p-4'>
+       <div className="centered">
+      <div  className="home">
       <h1>Restaurante</h1>
+      </div>
+      </div>
       {(session && user) ?
         <div className='m-4 p-4 bg-light'>
           {user.eGerente ? <PainelGerente /> : ""}

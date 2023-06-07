@@ -6,13 +6,18 @@ import produto from './imagens/produtos.png'
 import prato from './imagens/prato.png';
 
 function PainelFuncionario() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    return (
-        <>
-            <h4>Painel do Funcionario</h4>
-        
-            <div className="c">
+  return (
+    <>
+      <div className="centered">
+        <div className="home">
+          <h4>Painel do Funcionario</h4>
+        </div>
+      </div>
+
+
+      <div className="c">
         <div className="card" >
           <img src={fornecedor} className="card-img-top img" alt="Imagem do Card" />
           <div className="card-body">
@@ -46,8 +51,8 @@ function PainelFuncionario() {
           </div>
         </div>
       </div>
-        </>
-    );
+    </>
+  );
 }
 
 export default PainelFuncionario;
