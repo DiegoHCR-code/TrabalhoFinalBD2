@@ -1,9 +1,14 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { controleBD } from '../controleSupabase';
 import { useNavigate, useLocation } from "react-router-dom";
 import PainelFolha from "./procedurecustomensal";
 
+import { useReactToPrint } from "react-to-print";
+
 function FolhaPagamento() {
+
+
+    const conponentPDF = useRef();
 
     const navigate = useNavigate();
     let { state } = useLocation();
@@ -40,7 +45,11 @@ function FolhaPagamento() {
         fetchTodos();
     }, []);
 
-
+    const generatePDF = useReactToPrint({
+        content: () => conponentPDF.current,
+        documentTitle: "Userdata",
+        onAfterPrint: () => alert("Data saved in PDF")
+    });
 
     return (
         <>{
@@ -50,6 +59,17 @@ function FolhaPagamento() {
                 <div className="container-sm m-2 p-2 bg-info-subtle rounded">
                     <PainelFolha fkFuncionario={state.user} />
                 </div>
+                
+                <button className="btn btn-primary btn-lg" onClick={() => navigate(-1)}>Voltar</button>
+                
+                <button className="btn btn-primary btn-lg b" onClick={generatePDF}> <i className="fas fa plus" />Gerar pdf</button>
+                <div ref={conponentPDF}>
+                <div className="pdf">
+                        <br />
+
+                        <h3>Folha pagamento:</h3>
+                        <hr />
+                        <br />
                 <table className="table table-white m-2">
                     <thead>
                         <tr>
@@ -68,7 +88,8 @@ function FolhaPagamento() {
 
                     </thead>
                 </table>
-                <button className="btn btn-primary btn-lg" onClick={() => navigate(-1)}>Voltar</button>
+                </div>
+                </div>
                 </div>
             </div>}
         </>
